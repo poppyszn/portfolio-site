@@ -130,3 +130,7 @@ If you run into any issues:
 1. Make sure Node.js is installed: `node --version`
 2. Delete `node_modules` and run `npm install` again
 3. Clear your browser cache
+
+---
+
+Built with ❤️ by Claude for Precious Okpor
