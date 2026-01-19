@@ -59,7 +59,8 @@ export default function Portfolio() {
     { name: 'Prometheus', icon: '📊', level: 85 },
     { name: 'Grafana', icon: '📈', level: 87 },
     { name: 'GitLab CI', icon: '🦊', level: 88 },
-    { name: 'Nginx', icon: '🌐', level: 85 }
+    { name: 'Nginx', icon: '🌐', level: 85 },
+    { name: 'n8n', icon: '🔗', level: 85 }
   ];
 
   // ============================================
@@ -284,6 +285,52 @@ export default function Portfolio() {
         .secondary-button:hover {
           background: rgba(0, 255, 200, 0.1);
           transform: translateY(-2px);
+        }
+        
+        .n8n-button {
+          background: transparent;
+          color: #00ffc8;
+          border: 2px solid #00ffc8;
+          padding: 12px 28px;
+          font-size: 15px;
+          font-weight: 600;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-family: inherit;
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .n8n-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 60%;
+          height: 100%;
+          background: linear-gradient(
+            90deg,
+            transparent,
+            rgba(255, 100, 150, 0.5),
+            rgba(255, 150, 200, 0.8),
+            rgba(255, 100, 150, 0.5),
+            transparent
+          );
+          animation: pink-shine 6s ease-in-out infinite;
+          animation-delay: 3s;
+        }
+        
+        @keyframes pink-shine {
+          0% { left: -100%; }
+          30% { left: 150%; }
+          100% { left: 150%; }
+        }
+        
+        .n8n-button:hover {
+          background: rgba(0, 255, 200, 0.1);
+          transform: translateY(-2px);
+          box-shadow: 0 0 20px rgba(255, 100, 150, 0.4);
         }
         
         .skill-card {
@@ -609,6 +656,14 @@ export default function Portfolio() {
             >
               View My Work
             </button>
+            <a href="https://github.com/poppyszn/n8n-automation-portfolio" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+              <button className="n8n-button" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                </svg>
+                n8n Automations
+              </button>
+            </a>
             <a href="/resume.pdf" download style={{ textDecoration: 'none' }}>
               <button className="secondary-button" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -743,6 +798,14 @@ export default function Portfolio() {
                     Resume
                   </button>
                 </a>
+                <a href="https://github.com/poppyszn/n8n-automation-portfolio" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
+                  <button className="n8n-button" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    n8n Automations
+                  </button>
+                </a>
               </div>
             </div>
             
@@ -758,7 +821,8 @@ export default function Portfolio() {
                 'K3S cluster implementations with ArgoCD',
                 'GitHub Actions pipelines for multi-env deployments',
                 'Container orchestration with Docker & Kubernetes',
-                'Monitoring solutions with Prometheus & Grafana'
+                'Monitoring solutions with Prometheus & Grafana',
+                'n8n workflow automation & integrations'
               ].map((item, i) => (
                 <div key={i} style={{
                   display: 'flex',
