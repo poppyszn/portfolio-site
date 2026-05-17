@@ -1,895 +1,357 @@
 import { useState, useEffect } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
+import './tokens.css';
 
-// SEO Meta Component (for reference - would go in document head)
-const SEOContent = {
-  title: "Precious Okpor | DevOps Engineer - AWS, Kubernetes, Terraform Expert",
-  description: "DevOps Engineer helping startups deploy faster and scale infrastructure without headaches. Specializing in AWS, Docker, Kubernetes, CI/CD pipelines, and Infrastructure as Code.",
-  keywords: "DevOps Engineer, AWS, Kubernetes, Docker, Terraform, CI/CD, Infrastructure as Code, Cloud Architecture"
-};
+const skillCategories = [
+  { name: 'Cloud & Infrastructure',       skills: ['AWS', 'Terraform', 'Ansible', 'Vagrant'] },
+  { name: 'Containers & Orchestration',   skills: ['Docker', 'Kubernetes', 'K3S', 'ArgoCD', 'Helm'] },
+  { name: 'CI/CD & Automation',           skills: ['GitHub Actions', 'GitLab CI', 'Jenkins', 'n8n'] },
+  { name: 'Monitoring & Observability',   skills: ['Prometheus', 'Grafana', 'Alertmanager'] },
+  { name: 'Systems & Languages',          skills: ['Linux', 'Python', 'Bash', 'Nginx', 'Git'] },
+];
+
+const projects = [
+  {
+    title: 'Two-Tier Web App with Docker & Jenkins',
+    tech: 'Docker · Jenkins · Terraform · AWS EC2',
+    description: 'End-to-end CI/CD deployment of a Flask + MySQL application on AWS — Terraform provisions the infrastructure, Docker containerises the stack, and Jenkins automates builds via GitHub webhooks.',
+    metric: 'Full CI/CD on every push',
+    github: 'https://github.com/poppyszn/DevOps-Project-Two-Tier-Web-App-with-Docker-and-Jenkins',
+  },
+  {
+    title: 'Monolith to EKS Migration',
+    tech: 'AWS EKS · Kubernetes · ArgoCD · Terraform',
+    description: 'Five-service polyglot stack (Node.js, Python, NestJS, React, Go) containerised with production-grade Dockerfiles and deployed to AWS EKS using GitOps with ArgoCD.',
+    metric: 'Production-grade multi-service',
+    github: 'https://github.com/poppyszn/DevOps-Project-AWS-EKS-Monolith-Migration',
+  },
+  {
+    title: 'Multi-Tier Web App on Vagrant',
+    tech: 'Vagrant · Nginx · Tomcat · MySQL · RabbitMQ',
+    description: 'Fully automated local infrastructure deploying a Java social-networking app across multiple VMs — with Nginx load balancing, Memcached, and RabbitMQ message queuing, all provisioned via Vagrant.',
+    metric: 'Zero-touch VM provisioning',
+    github: 'https://github.com/poppyszn/DevOps-Project-Multi-Tier-Web-App-on-Vagrant',
+  },
+  {
+    title: 'AWS Projects Portfolio',
+    tech: 'AWS · Terraform · IAM · S3 · EC2',
+    description: 'Collection of production-ready AWS cloud infrastructure projects covering legacy migrations, auto-scaling architectures, storage, and DNS management — all built with Infrastructure as Code.',
+    metric: 'Multiple production deployments',
+    github: 'https://github.com/poppyszn/AWS-Projects',
+  },
+];
+
+const experience = [
+  {
+    role: 'Lead DevOps Engineer',
+    company: 'Vascon Solutions',
+    period: 'Feb 2025 – Present',
+    type: 'Full-time · Remote',
+    highlights: [
+      'Spearheaded company-wide infrastructure security policies, significantly reducing vulnerabilities',
+      'Designed CI/CD pipelines with GitLab CI achieving 40% deployment efficiency increase',
+      'Architected scalable AWS infrastructure optimising cost, performance, and availability',
+      'Led integration of third-party applications ensuring seamless data flow via APIs',
+      'Mentored junior engineers and facilitated best practice workshops',
+    ],
+  },
+  {
+    role: 'DevOps Engineer',
+    company: 'Vascon Solutions',
+    period: 'Nov 2024 – Feb 2025',
+    type: 'Full-time · Remote',
+    highlights: [
+      'Implemented CI/CD pipelines to automate deployment, reducing time to market',
+      'Containerised applications with Docker for easier scaling in cloud environments',
+      'Deployed monitoring and alerting solutions for proactive performance management',
+    ],
+  },
+  {
+    role: 'DevOps Intern',
+    company: 'Vascon Solutions',
+    period: 'Dec 2023 – Oct 2024',
+    type: 'Internship · Remote',
+    highlights: [
+      'Developed automated deployment scripts using Terraform and Jenkins',
+      'Participated in containerisation efforts creating replicable environments',
+      'Collaborated with senior engineers learning DevOps best practices',
+    ],
+  },
+];
+
+const stats = [
+  { value: '40%',  label: 'Faster Deployments' },
+  { value: '99.9%', label: 'Uptime Achieved' },
+  { value: '50%',  label: 'Onboarding Reduction' },
+  { value: '13+',  label: 'Technologies Mastered' },
+];
+
+const CheckIcon = () => (
+  <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
+    <path d="M2 5l2.5 2.5L8 3" stroke="var(--c-accent)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
 
 export default function Portfolio() {
-  const [activeSection, setActiveSection] = useState('home');
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [typedText, setTypedText] = useState('');
   const [showCursor, setShowCursor] = useState(true);
-  
-  const roles = ['DevOps Engineer', 'Cloud Architect', 'Automation Expert', 'Infrastructure Builder'];
   const [roleIndex, setRoleIndex] = useState(0);
-  
-  // Formspree contact form
-  const [formState, handleFormSubmit] = useForm("xpqqaekv");
+  const [formState, handleFormSubmit] = useForm('xpqqaekv');
+
+  const roles = ['Lead DevOps Engineer', 'Cloud Architect', 'Automation Expert', 'Infrastructure Builder'];
 
   useEffect(() => {
     const role = roles[roleIndex];
-    let charIndex = 0;
+    let i = 0;
     setTypedText('');
-    
-    const typeInterval = setInterval(() => {
-      if (charIndex < role.length) {
-        setTypedText(role.substring(0, charIndex + 1));
-        charIndex++;
-      } else {
-        clearInterval(typeInterval);
-        setTimeout(() => {
-          setRoleIndex((prev) => (prev + 1) % roles.length);
-        }, 2000);
-      }
-    }, 100);
-
-    return () => clearInterval(typeInterval);
+    const t = setInterval(() => {
+      if (i < role.length) { setTypedText(role.substring(0, i + 1)); i++; }
+      else { clearInterval(t); setTimeout(() => setRoleIndex(p => (p + 1) % roles.length), 2200); }
+    }, 80);
+    return () => clearInterval(t);
   }, [roleIndex]);
 
   useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setShowCursor(prev => !prev);
-    }, 530);
-    return () => clearInterval(cursorInterval);
+    const t = setInterval(() => setShowCursor(p => !p), 530);
+    return () => clearInterval(t);
   }, []);
 
-  const skills = [
-    { name: 'AWS', icon: '☁️', level: 95 },
-    { name: 'Kubernetes', icon: '⚙️', level: 90 },
-    { name: 'Docker', icon: '🐳', level: 95 },
-    { name: 'Terraform', icon: '🏗️', level: 90 },
-    { name: 'GitHub Actions', icon: '🔄', level: 92 },
-    { name: 'Linux', icon: '🐧', level: 93 },
-    { name: 'Python', icon: '🐍', level: 85 },
-    { name: 'Ansible', icon: '📜', level: 88 },
-    { name: 'Prometheus', icon: '📊', level: 85 },
-    { name: 'Grafana', icon: '📈', level: 87 },
-    { name: 'GitLab CI', icon: '🦊', level: 88 },
-    { name: 'Nginx', icon: '🌐', level: 85 },
-    { name: 'n8n', icon: '🔗', level: 85 }
-  ];
-
-  // ============================================
-  // 🔗 YOUR PROJECT LINKS
-  // ============================================
-  const projects = [
-    {
-      title: 'Preview Deployment Pipeline',
-      tech: 'GitHub Actions • Vercel',
-      description: 'Automated build and test system that deploys unique staging instances on every PR with auto-generated preview links.',
-      metrics: '90% faster reviews',
-      github: 'https://github.com/poppyszn/Dynamic-Preview-Deployments-with-GitHub-Actions-Vercel'
-    },
-    {
-      title: 'Multi-Tier AWS Migration',
-      tech: 'AWS • Terraform • Vagrant',
-      description: 'Complete Lift-and-Shift migration strategy transforming local Vagrant stacks into production-grade AWS infrastructure.',
-      metrics: '99.9% uptime achieved',
-      github: 'https://github.com/poppyszn/AWS-Projects/tree/main/lift-and-shift-multi-tier-app'
-    },
-    {
-      title: 'Serverless URL Shortener',
-      tech: 'Lambda • API Gateway • DynamoDB',
-      description: 'Scalable, cost-effective link shortening service built entirely with serverless architecture and Infrastructure as Code.',
-      metrics: '10M+ requests/month',
-      github: 'https://github.com/poppyszn/AWS-Projects/tree/main/serverless-url-shortener'
-    },
-    {
-      title: 'Static Website Hosting on Amazon S3',
-      tech: 'AWS • Terraform',
-      description: 'Designed and implemented a complete static website hosting solution on AWS using S3 and Route 53, with all infrastructure managed through Terraform for reproducibility and version control.',
-      metrics: 'Sub-$5/month hosting costs',
-      github: 'https://github.com/poppyszn/AWS-Projects/tree/main/static-website-hosting-s3'
-    }
-  ];
-
-  const experience = [
-    {
-      role: 'Lead DevOps Engineer',
-      company: 'Vascon Solutions',
-      period: 'Feb 2025 - Present',
-      type: 'Full-time • Remote',
-      highlights: [
-        'Spearheaded company-wide infrastructure security policies, significantly reducing vulnerabilities',
-        'Designed CI/CD pipelines with GitLab CI achieving 40% deployment efficiency increase',
-        'Architected scalable AWS infrastructure optimizing cost, performance, and availability',
-        'Led integration of third-party applications ensuring seamless data flow via APIs',
-        'Mentored junior engineers and facilitated best practice workshops'
-      ]
-    },
-    {
-      role: 'DevOps Engineer',
-      company: 'Vascon Solutions',
-      period: 'Nov 2024 - Feb 2025',
-      type: 'Full-time • Remote',
-      highlights: [
-        'Implemented CI/CD pipelines to automate deployment, reducing time to market',
-        'Containerized applications with Docker for easier scaling in cloud environments',
-        'Deployed monitoring and alerting solutions for proactive performance management'
-      ]
-    },
-    {
-      role: 'DevOps Intern',
-      company: 'Vascon Solutions',
-      period: 'Dec 2023 - Oct 2024',
-      type: 'Internship • Remote',
-      highlights: [
-        'Developed automated deployment scripts using Terraform and Jenkins',
-        'Participated in containerization efforts creating replicable environments',
-        'Collaborated with senior engineers learning DevOps best practices'
-      ]
-    }
-  ];
-
-  const stats = [
-    { value: '40%', label: 'Faster Deployments' },
-    { value: '99.9%', label: 'Uptime Achieved' },
-    { value: '50%', label: 'Onboarding Reduction' },
-    { value: '2-3', label: 'Active Projects' }
-  ];
+  const scrollTo = id => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      background: 'linear-gradient(180deg, #0a0a0f 0%, #0d1117 50%, #0a0a0f 100%)',
-      color: '#e6edf3',
-      fontFamily: '"IBM Plex Sans", -apple-system, sans-serif',
-      overflow: 'hidden'
-    }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Space+Grotesk:wght@400;500;600;700&display=swap');
-        
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        html { scroll-behavior: smooth; }
-        
-        section[id] {
-          scroll-margin-top: 80px;
-        }
-        
-        ::selection {
-          background: rgba(0, 255, 200, 0.3);
-          color: #fff;
-        }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-20px); }
-        }
-        
-        @keyframes pulse-glow {
-          0%, 100% { box-shadow: 0 0 20px rgba(0, 255, 200, 0.3); }
-          50% { box-shadow: 0 0 40px rgba(0, 255, 200, 0.6); }
-        }
-        
-        @keyframes gradient-shift {
-          0% { background-position: 0% 50%; }
-          50% { background-position: 100% 50%; }
-          100% { background-position: 0% 50%; }
-        }
-        
-        @keyframes fade-in-up {
-          from { opacity: 0; transform: translateY(30px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes slide-in-left {
-          from { opacity: 0; transform: translateX(-50px); }
-          to { opacity: 1; transform: translateX(0); }
-        }
-        
-        @keyframes scale-in {
-          from { opacity: 0; transform: scale(0.9); }
-          to { opacity: 1; transform: scale(1); }
-        }
-        
-        @keyframes shimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-        
-        .nav-link {
-          position: relative;
-          color: #8b949e;
-          text-decoration: none;
-          font-size: 14px;
-          font-weight: 500;
-          padding: 8px 16px;
-          transition: all 0.3s ease;
-          letter-spacing: 0.5px;
-        }
-        
-        .nav-link:hover {
-          color: #00ffc8;
-        }
-        
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          left: 50%;
-          width: 0;
-          height: 2px;
-          background: linear-gradient(90deg, #00ffc8, #00d4aa);
-          transition: all 0.3s ease;
-          transform: translateX(-50%);
-        }
-        
-        .nav-link:hover::after {
-          width: 80%;
-        }
-        
-        .cta-button {
-          background: linear-gradient(135deg, #00ffc8 0%, #00d4aa 100%);
-          color: #0a0a0f;
-          border: none;
-          padding: 14px 32px;
-          font-size: 15px;
-          font-weight: 600;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-family: inherit;
-          letter-spacing: 0.3px;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .cta-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-          transition: left 0.5s ease;
-        }
-        
-        .cta-button:hover::before {
-          left: 100%;
-        }
-        
-        .cta-button:hover {
-          transform: translateY(-3px);
-          box-shadow: 0 10px 40px rgba(0, 255, 200, 0.4);
-        }
-        
-        .secondary-button {
-          background: transparent;
-          color: #00ffc8;
-          border: 2px solid #00ffc8;
-          padding: 12px 28px;
-          font-size: 15px;
-          font-weight: 600;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-family: inherit;
-        }
-        
-        .secondary-button:hover {
-          background: rgba(0, 255, 200, 0.1);
-          transform: translateY(-2px);
-        }
-        
-        .n8n-button {
-          background: transparent;
-          color: #00ffc8;
-          border: 2px solid #00ffc8;
-          padding: 12px 28px;
-          font-size: 15px;
-          font-weight: 600;
-          border-radius: 8px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          font-family: inherit;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .n8n-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 60%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 100, 150, 0.5),
-            rgba(255, 150, 200, 0.8),
-            rgba(255, 100, 150, 0.5),
-            transparent
-          );
-          animation: pink-shine 6s ease-in-out infinite;
-          animation-delay: 3s;
-        }
-        
-        @keyframes pink-shine {
-          0% { left: -100%; }
-          30% { left: 150%; }
-          100% { left: 150%; }
-        }
-        
-        .n8n-button:hover {
-          background: rgba(0, 255, 200, 0.1);
-          transform: translateY(-2px);
-          box-shadow: 0 0 20px rgba(255, 100, 150, 0.4);
-        }
-        
-        .skill-card {
-          background: linear-gradient(135deg, rgba(22, 27, 34, 0.8) 0%, rgba(13, 17, 23, 0.9) 100%);
-          border: 1px solid rgba(48, 54, 61, 0.6);
-          border-radius: 12px;
-          padding: 20px;
-          transition: all 0.4s ease;
-          position: relative;
-          overflow: hidden;
-        }
-        
-        .skill-card::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: 0;
-          right: 0;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, #00ffc8, transparent);
-          opacity: 0;
-          transition: opacity 0.3s ease;
-        }
-        
-        .skill-card:hover::before {
-          opacity: 1;
-        }
-        
-        .skill-card:hover {
-          transform: translateY(-5px);
-          border-color: rgba(0, 255, 200, 0.3);
-          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-        }
-        
-        .project-card {
-          background: linear-gradient(145deg, rgba(22, 27, 34, 0.6) 0%, rgba(13, 17, 23, 0.8) 100%);
-          border: 1px solid rgba(48, 54, 61, 0.5);
-          border-radius: 16px;
-          padding: 32px;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          overflow: hidden;
-          cursor: pointer;
-        }
-        
-        .project-card::after {
-          content: '';
-          position: absolute;
-          inset: 0;
-          border-radius: 16px;
-          padding: 1px;
-          background: linear-gradient(135deg, transparent 40%, rgba(0, 255, 200, 0.3) 100%);
-          mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          mask-composite: exclude;
-          opacity: 0;
-          transition: opacity 0.4s ease;
-        }
-        
-        .project-card:hover::after {
-          opacity: 1;
-        }
-        
-        .project-card:hover {
-          transform: translateY(-8px) scale(1.02);
-          box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
-        }
-        
-        .timeline-item {
-          position: relative;
-          padding-left: 40px;
-          padding-bottom: 48px;
-        }
-        
-        .timeline-item::before {
-          content: '';
-          position: absolute;
-          left: 7px;
-          top: 24px;
-          bottom: 0;
-          width: 2px;
-          background: linear-gradient(180deg, #00ffc8, rgba(0, 255, 200, 0.1));
-        }
-        
-        .timeline-item:last-child::before {
-          display: none;
-        }
-        
-        .timeline-dot {
-          position: absolute;
-          left: 0;
-          top: 6px;
-          width: 16px;
-          height: 16px;
-          border-radius: 50%;
-          background: #00ffc8;
-          box-shadow: 0 0 20px rgba(0, 255, 200, 0.5);
-        }
-        
-        .stat-card {
-          text-align: center;
-          padding: 32px 24px;
-          background: rgba(22, 27, 34, 0.5);
-          border: 1px solid rgba(48, 54, 61, 0.4);
-          border-radius: 16px;
-          transition: all 0.3s ease;
-        }
-        
-        .stat-card:hover {
-          transform: scale(1.05);
-          border-color: rgba(0, 255, 200, 0.3);
-        }
-        
-        .terminal-window {
-          background: #161b22;
-          border-radius: 12px;
-          border: 1px solid #30363d;
-          overflow: hidden;
-          box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
-        }
-        
-        .terminal-header {
-          background: #21262d;
-          padding: 12px 16px;
-          display: flex;
-          gap: 8px;
-          align-items: center;
-        }
-        
-        .terminal-dot {
-          width: 12px;
-          height: 12px;
-          border-radius: 50%;
-        }
-        
-        .grid-bg {
-          position: absolute;
-          inset: 0;
-          background-image: 
-            linear-gradient(rgba(0, 255, 200, 0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(0, 255, 200, 0.03) 1px, transparent 1px);
-          background-size: 50px 50px;
-          pointer-events: none;
-        }
-        
-        .glow-orb {
-          position: absolute;
-          width: 400px;
-          height: 400px;
-          border-radius: 50%;
-          filter: blur(100px);
-          opacity: 0.15;
-          pointer-events: none;
-        }
-        
-        input:focus, textarea:focus {
-          outline: none;
-          border-color: #00ffc8 !important;
-          box-shadow: 0 0 0 3px rgba(0, 255, 200, 0.1);
-        }
-        
-        @media (max-width: 768px) {
-          .hide-mobile { display: none !important; }
-        }
-      `}</style>
+    <div style={{ minHeight: '100vh', background: 'var(--c-bg)', color: 'var(--c-text)', fontFamily: 'var(--font)' }}>
 
-      {/* Navigation */}
+      {/* NAV */}
       <nav style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 1000,
-        padding: '16px 24px',
-        background: 'rgba(10, 10, 15, 0.8)',
-        backdropFilter: 'blur(20px)',
-        borderBottom: '1px solid rgba(48, 54, 61, 0.4)'
+        position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100,
+        background: 'rgba(255,255,255,0.9)', backdropFilter: 'blur(16px)',
+        borderBottom: '1px solid var(--c-border)', padding: '0 24px', height: '68px',
+        display: 'flex', alignItems: 'center',
       }}>
-        <div style={{
-          maxWidth: '1200px',
-          margin: '0 auto',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center'
-        }}>
-          <div style={{
-            fontFamily: '"JetBrains Mono", monospace',
-            fontSize: '20px',
-            fontWeight: '600',
-            color: '#00ffc8'
-          }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto', width: '100%', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '17px', fontWeight: '600', color: 'var(--c-accent)', letterSpacing: '-0.02em' }}>
             {'<PO />'}
-          </div>
-          
-          <div className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-            {['Home', 'About', 'Skills', 'Projects', 'Experience', 'Contact'].map((item) => (
-              <a
-                key={item}
-                href={`#${item.toLowerCase()}`}
-                className="nav-link"
-                onClick={(e) => {
-                  e.preventDefault();
-                  document.getElementById(item.toLowerCase())?.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                  });
-                }}
-              >
+          </span>
+          <div className="hide-mobile" style={{ display: 'flex', gap: '2px' }}>
+            {['Home', 'About', 'Skills', 'Projects', 'Experience', 'Contact'].map(item => (
+              <a key={item} href={`#${item.toLowerCase()}`} className="nav-link"
+                onClick={e => { e.preventDefault(); scrollTo(item.toLowerCase()); }}>
                 {item}
               </a>
             ))}
           </div>
-          
-          <button
-            className="cta-button"
-            style={{ padding: '10px 24px', fontSize: '14px' }}
-            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-          >
+          <button className="btn btn-primary btn-sm" onClick={() => scrollTo('contact')}>
             Let's Talk
           </button>
         </div>
       </nav>
 
-      {/* Hero Section */}
+      {/* HERO */}
       <section id="home" style={{
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-        padding: '120px 24px 80px'
+        minHeight: '100vh', display: 'flex', alignItems: 'center', paddingTop: '68px',
+        background: 'radial-gradient(ellipse 100% 60% at 50% -5%, rgba(30,64,175,0.07) 0%, transparent 65%)',
       }}>
-        <div className="grid-bg" />
-        <div className="glow-orb" style={{ top: '10%', right: '10%', background: '#00ffc8' }} />
-        <div className="glow-orb" style={{ bottom: '20%', left: '5%', background: '#0066ff' }} />
-        
-        <div style={{ maxWidth: '1000px', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <div style={{
-            display: 'inline-block',
-            padding: '8px 20px',
-            background: 'rgba(0, 255, 200, 0.1)',
-            border: '1px solid rgba(0, 255, 200, 0.3)',
-            borderRadius: '50px',
-            marginBottom: '32px',
-            animation: 'fade-in-up 0.6s ease forwards'
-          }}>
-            <span style={{ color: '#00ffc8', fontSize: '14px', fontWeight: '500' }}>
-              ✨ Available for consulting projects
-            </span>
-          </div>
-          
-          <h1 style={{
-            fontSize: 'clamp(40px, 8vw, 72px)',
-            fontWeight: '700',
-            lineHeight: '1.1',
-            marginBottom: '24px',
-            fontFamily: '"Space Grotesk", sans-serif',
-            animation: 'fade-in-up 0.6s ease 0.1s forwards',
-            opacity: 0,
-            animationFillMode: 'forwards'
-          }}>
-            Hey, I'm{' '}
-            <span style={{
-              background: 'linear-gradient(135deg, #00ffc8 0%, #00d4aa 50%, #00ffaa 100%)',
-              backgroundClip: 'text',
-              WebkitBackgroundClip: 'text',
-              color: 'transparent'
-            }}>
-              Precious Okpor
-            </span>
-          </h1>
-          
-          <div style={{
-            fontSize: 'clamp(20px, 4vw, 32px)',
-            color: '#8b949e',
-            marginBottom: '32px',
-            fontFamily: '"JetBrains Mono", monospace',
-            animation: 'fade-in-up 0.6s ease 0.2s forwards',
-            opacity: 0,
-            animationFillMode: 'forwards'
-          }}>
-            {'> '}{typedText}
-            <span style={{ 
-              opacity: showCursor ? 1 : 0,
-              color: '#00ffc8',
-              marginLeft: '2px'
-            }}>|</span>
-          </div>
-          
-          <p style={{
-            fontSize: '18px',
-            color: '#8b949e',
-            lineHeight: '1.8',
-            maxWidth: '700px',
-            margin: '0 auto 48px',
-            animation: 'fade-in-up 0.6s ease 0.3s forwards',
-            opacity: 0,
-            animationFillMode: 'forwards'
-          }}>
-            I help startups <strong style={{ color: '#e6edf3' }}>deploy faster</strong> and{' '}
-            <strong style={{ color: '#e6edf3' }}>scale infrastructure</strong> without the headaches. 
-            Specializing in AWS, Kubernetes, and CI/CD automation to transform your deployment 
-            pipeline from hours to minutes.
-          </p>
-          
-          <div style={{
-            display: 'flex',
-            gap: '16px',
-            justifyContent: 'center',
-            flexWrap: 'wrap',
-            animation: 'fade-in-up 0.6s ease 0.4s forwards',
-            opacity: 0,
-            animationFillMode: 'forwards'
-          }}>
-            <button
-              className="cta-button"
-              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            >
-              Book Free Consultation →
-            </button>
-            <button
-              className="secondary-button"
-              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
-            >
-              View My Work
-            </button>
-            <a href="https://github.com/poppyszn/n8n-automation-portfolio" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-              <button className="n8n-button" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                </svg>
-                n8n Automations
-              </button>
-            </a>
-            <a href="/resume.pdf" download style={{ textDecoration: 'none' }}>
-              <button className="secondary-button" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                </svg>
-                Download CV
-              </button>
-            </a>
-          </div>
-          
-          {/* Terminal Preview */}
-          <div className="terminal-window" style={{
-            marginTop: '64px',
-            textAlign: 'left',
-            animation: 'scale-in 0.8s ease 0.6s forwards',
-            opacity: 0,
-            animationFillMode: 'forwards'
-          }}>
-            <div className="terminal-header">
-              <div className="terminal-dot" style={{ background: '#ff5f56' }} />
-              <div className="terminal-dot" style={{ background: '#ffbd2e' }} />
-              <div className="terminal-dot" style={{ background: '#27ca40' }} />
-              <span style={{ marginLeft: '12px', color: '#8b949e', fontSize: '13px', fontFamily: '"JetBrains Mono", monospace' }}>
-                precious@devops:~
-              </span>
-            </div>
-            <div style={{ padding: '20px 24px', fontFamily: '"JetBrains Mono", monospace', fontSize: '14px' }}>
-              <div style={{ color: '#8b949e' }}>$ kubectl get pods -n production</div>
-              <div style={{ color: '#7ee787', marginTop: '8px' }}>✓ All systems operational</div>
-              <div style={{ display: 'flex', gap: '40px', marginTop: '12px', flexWrap: 'wrap' }}>
-                <span><span style={{ color: '#8b949e' }}>api-server</span> <span style={{ color: '#7ee787' }}>Running</span></span>
-                <span><span style={{ color: '#8b949e' }}>worker-nodes</span> <span style={{ color: '#7ee787' }}>3/3</span></span>
-                <span><span style={{ color: '#8b949e' }}>uptime</span> <span style={{ color: '#00ffc8' }}>99.99%</span></span>
+        <div style={{ maxWidth: '1120px', margin: '0 auto', padding: '80px 24px', width: '100%' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '64px', alignItems: 'center' }}>
+
+            {/* Left — text */}
+            <div>
+              <div className="badge-available anim-1" style={{ marginBottom: '28px' }}>
+                <div className="badge-dot" />
+                Available for consulting projects
+              </div>
+
+              <h1 className="anim-2" style={{
+                fontSize: 'clamp(44px, 6vw, 68px)', fontWeight: '800',
+                lineHeight: '1.04', letterSpacing: '-0.04em', marginBottom: '14px',
+              }}>
+                Precious<br />
+                <span className="gradient-text">Okpor</span>
+              </h1>
+
+              <div className="anim-3" style={{
+                fontSize: '18px', color: 'var(--c-text-2)', marginBottom: '22px',
+                fontFamily: 'var(--font-mono)', minHeight: '28px',
+              }}>
+                {typedText}
+                <span style={{ opacity: showCursor ? 1 : 0, color: 'var(--c-accent)', marginLeft: '1px' }}>|</span>
+              </div>
+
+              <p className="anim-4" style={{
+                fontSize: '17px', color: 'var(--c-text-2)', lineHeight: '1.78',
+                maxWidth: '460px', marginBottom: '36px',
+              }}>
+                I help companies <strong style={{ color: 'var(--c-text)', fontWeight: '600' }}>ship faster</strong> and{' '}
+                <strong style={{ color: 'var(--c-text)', fontWeight: '600' }}>scale with confidence</strong>. Specialising
+                in AWS, Kubernetes, and CI/CD automation that turns hours of deployment into minutes.
+              </p>
+
+              <div className="anim-5" style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', marginBottom: '28px' }}>
+                <button className="btn btn-primary" onClick={() => scrollTo('contact')}>
+                  Book Free Consultation →
+                </button>
+                <a href="/resume.pdf" download className="btn btn-secondary">
+                  <svg width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                    <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/>
+                  </svg>
+                  Download CV
+                </a>
+              </div>
+
+              <div className="anim-5" style={{ display: 'flex', flexWrap: 'wrap', gap: '20px', alignItems: 'center' }}>
+                <a href="https://github.com/poppyszn" target="_blank" rel="noopener noreferrer" className="social-link">
+                  <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+                  </svg>
+                  GitHub
+                </a>
+                <a href="https://www.linkedin.com/in/dev-pops/" target="_blank" rel="noopener noreferrer" className="social-link">
+                  <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                  </svg>
+                  LinkedIn
+                </a>
+                <a href="https://github.com/poppyszn/n8n-automation-portfolio" target="_blank" rel="noopener noreferrer" className="social-link">
+                  n8n Automations ↗
+                </a>
               </div>
             </div>
+
+            {/* Right — terminal */}
+            <div className="terminal anim-scale">
+              <div className="terminal-header">
+                <div className="terminal-dot" style={{ background: '#FF5F57' }} />
+                <div className="terminal-dot" style={{ background: '#FEBC2E' }} />
+                <div className="terminal-dot" style={{ background: '#28C840' }} />
+                <span style={{ marginLeft: '10px', fontSize: '12px', fontFamily: 'var(--font-mono)', color: 'var(--c-text-3)' }}>
+                  precious@devops — kubectl
+                </span>
+              </div>
+              <div className="terminal-body">
+                <div style={{ color: 'var(--c-text-3)' }}>$ kubectl get deployments -n production</div>
+                <div style={{ marginTop: '10px', fontFamily: 'var(--font-mono)', fontSize: '11.5px', color: 'var(--c-text-3)', borderBottom: '1px solid var(--c-border-light)', paddingBottom: '4px', marginBottom: '4px' }}>
+                  NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READY&nbsp;&nbsp;STATUS
+                </div>
+                {[
+                  { name: 'api-server',    ready: '3/3' },
+                  { name: 'web-frontend',  ready: '2/2' },
+                  { name: 'worker',        ready: '4/4' },
+                ].map(d => (
+                  <div key={d.name} style={{ display: 'flex', gap: '0', fontFamily: 'var(--font-mono)', fontSize: '12px', marginBottom: '2px' }}>
+                    <span style={{ color: 'var(--c-text)', width: '160px' }}>{d.name}</span>
+                    <span style={{ color: 'var(--c-text-2)', width: '50px' }}>{d.ready}</span>
+                    <span style={{ color: 'var(--c-success)', fontWeight: '600' }}>Running</span>
+                  </div>
+                ))}
+                <div style={{ marginTop: '16px', color: 'var(--c-text-3)' }}>$ terraform plan</div>
+                <div style={{ marginTop: '4px', color: 'var(--c-success)' }}>
+                  ✔ Plan: 0 to add, 2 to change, 0 to destroy.
+                </div>
+                <div style={{ marginTop: '16px', color: 'var(--c-text-3)' }}>$ echo "All systems nominal"</div>
+                <div style={{ marginTop: '4px', display: 'flex', gap: '20px', flexWrap: 'wrap' }}>
+                  <span style={{ color: 'var(--c-accent)', fontWeight: '600' }}>99.9% uptime</span>
+                  <span style={{ color: 'var(--c-success)' }}>All systems nominal</span>
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section style={{
-        padding: '80px 24px',
-        background: 'rgba(22, 27, 34, 0.3)',
-        borderTop: '1px solid rgba(48, 54, 61, 0.3)',
-        borderBottom: '1px solid rgba(48, 54, 61, 0.3)'
-      }}>
-        <div style={{
-          maxWidth: '1000px',
-          margin: '0 auto',
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))',
-          gap: '24px'
-        }}>
-          {stats.map((stat, i) => (
-            <div key={i} className="stat-card">
-              <div style={{
-                fontSize: '48px',
-                fontWeight: '700',
-                fontFamily: '"Space Grotesk", sans-serif',
-                background: 'linear-gradient(135deg, #00ffc8, #00d4aa)',
-                backgroundClip: 'text',
-                WebkitBackgroundClip: 'text',
-                color: 'transparent',
-                marginBottom: '8px'
-              }}>
-                {stat.value}
+      {/* STATS */}
+      <div style={{ background: 'var(--c-bg-soft)', borderTop: '1px solid var(--c-border)', borderBottom: '1px solid var(--c-border)', padding: '52px 24px' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '40px' }}>
+          {stats.map((s, i) => (
+            <div key={i} style={{ textAlign: 'center' }}>
+              <div style={{ fontSize: '40px', fontWeight: '800', letterSpacing: '-0.04em', color: 'var(--c-accent)', lineHeight: '1' }}>
+                {s.value}
               </div>
-              <div style={{ color: '#8b949e', fontSize: '15px' }}>{stat.label}</div>
+              <div style={{ marginTop: '8px', fontSize: '13px', color: 'var(--c-text-2)', fontWeight: '500', letterSpacing: '-0.01em' }}>
+                {s.label}
+              </div>
             </div>
           ))}
         </div>
-      </section>
+      </div>
 
-      {/* About Section */}
-      <section id="about" style={{ padding: '120px 24px', position: 'relative' }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '64px', alignItems: 'center' }}>
+      {/* ABOUT */}
+      <section id="about" style={{ padding: '120px 24px' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '80px', alignItems: 'start' }}>
+
             <div>
-              <span style={{
-                color: '#00ffc8',
-                fontSize: '14px',
-                fontWeight: '600',
-                textTransform: 'uppercase',
-                letterSpacing: '2px'
-              }}>
-                About Me
-              </span>
-              <h2 style={{
-                fontSize: '40px',
-                fontWeight: '700',
-                marginTop: '16px',
-                marginBottom: '24px',
-                fontFamily: '"Space Grotesk", sans-serif'
-              }}>
+              <div className="section-label" style={{ marginBottom: '20px' }}>About Me</div>
+              <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em', lineHeight: '1.15', marginBottom: '24px' }}>
                 Building Infrastructure That{' '}
-                <span style={{ color: '#00ffc8' }}>Ships with Confidence</span>
+                <span className="gradient-text">Ships with Confidence</span>
               </h2>
-              <p style={{ color: '#8b949e', lineHeight: '1.8', fontSize: '16px', marginBottom: '20px' }}>
-                I'm a DevOps Engineer who transforms chaotic deployment processes into streamlined, 
-                automated pipelines. Over the past year, I've migrated legacy systems to Infrastructure 
-                as Code, implemented Kubernetes clusters with GitOps workflows, and built CI/CD 
-                pipelines that reduce deployment time from hours to minutes.
+              <p style={{ color: 'var(--c-text-2)', lineHeight: '1.8', fontSize: '16px', marginBottom: '18px' }}>
+                I'm a DevOps Engineer who transforms chaotic deployment processes into streamlined, automated
+                pipelines. I've migrated legacy systems to Infrastructure as Code, implemented Kubernetes
+                clusters with GitOps workflows, and built CI/CD pipelines that reduce deployment time from
+                hours to minutes.
               </p>
-              <p style={{ color: '#8b949e', lineHeight: '1.8', fontSize: '16px', marginBottom: '32px' }}>
-                My approach: <strong style={{ color: '#e6edf3' }}>reduce complexity</strong>, 
-                <strong style={{ color: '#e6edf3' }}> automate repetitive tasks</strong>, and 
-                <strong style={{ color: '#e6edf3' }}> create systems that work</strong> so 
-                developers can focus on building products instead of fighting infrastructure.
+              <p style={{ color: 'var(--c-text-2)', lineHeight: '1.8', fontSize: '16px' }}>
+                My approach:{' '}
+                <strong style={{ color: 'var(--c-text)', fontWeight: '600' }}>reduce complexity</strong>,{' '}
+                <strong style={{ color: 'var(--c-text)', fontWeight: '600' }}>automate repetitive tasks</strong>, and{' '}
+                <strong style={{ color: 'var(--c-text)', fontWeight: '600' }}>create resilient systems</strong> so
+                developers can focus on building products, not fighting infrastructure.
               </p>
-              <div style={{ display: 'flex', gap: '16px', flexWrap: 'wrap' }}>
-                <a href="https://www.linkedin.com/in/dev-pops/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                  <button className="secondary-button" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                    LinkedIn
-                  </button>
-                </a>
-                <a href="https://github.com/poppyszn" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                  <button className="secondary-button" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    GitHub
-                  </button>
-                </a>
-                <a href="/resume.pdf" download style={{ textDecoration: 'none' }}>
-                  <button className="secondary-button" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/>
-                    </svg>
-                    Resume
-                  </button>
-                </a>
-                <a href="https://github.com/poppyszn/n8n-automation-portfolio" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                  <button className="n8n-button" style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                    </svg>
-                    n8n Automations
-                  </button>
-                </a>
-              </div>
             </div>
-            
-            <div style={{
-              background: 'linear-gradient(135deg, rgba(0, 255, 200, 0.1) 0%, rgba(0, 102, 255, 0.1) 100%)',
-              borderRadius: '20px',
-              padding: '40px',
-              border: '1px solid rgba(0, 255, 200, 0.2)'
-            }}>
-              <h3 style={{ fontSize: '20px', marginBottom: '24px', color: '#00ffc8' }}>What I Bring</h3>
+
+            <div className="card" style={{ padding: '32px' }}>
+              <h3 style={{ fontSize: '15px', fontWeight: '700', marginBottom: '20px', letterSpacing: '-0.01em' }}>
+                What I Bring
+              </h3>
               {[
                 'Full IaC migrations for production systems',
                 'K3S cluster implementations with ArgoCD',
                 'GitHub Actions pipelines for multi-env deployments',
                 'Container orchestration with Docker & Kubernetes',
                 'Monitoring solutions with Prometheus & Grafana',
-                'n8n workflow automation & integrations'
-              ].map((item, i) => (
-                <div key={i} style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  marginBottom: '16px',
-                  color: '#e6edf3'
-                }}>
-                  <span style={{ color: '#00ffc8', fontSize: '18px' }}>✓</span>
-                  {item}
+                'n8n workflow automation & API integrations',
+              ].map((item, i, arr) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: i < arr.length - 1 ? '14px' : 0 }}>
+                  <div style={{
+                    width: '20px', height: '20px', borderRadius: '50%', flexShrink: 0, marginTop: '1px',
+                    background: 'var(--c-accent-light)', border: '1px solid var(--c-accent-border)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <CheckIcon />
+                  </div>
+                  <span style={{ color: 'var(--c-text-2)', fontSize: '15px', lineHeight: '1.5' }}>{item}</span>
                 </div>
               ))}
             </div>
+
           </div>
         </div>
       </section>
 
-      {/* Skills Section */}
-      <section id="skills" style={{
-        padding: '120px 24px',
-        background: 'rgba(22, 27, 34, 0.3)'
-      }}>
-        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+      {/* SKILLS */}
+      <section id="skills" style={{ background: 'var(--c-bg-soft)', borderTop: '1px solid var(--c-border)', padding: '120px 24px' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-            <span style={{
-              color: '#00ffc8',
-              fontSize: '14px',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '2px'
-            }}>
-              Technical Expertise
-            </span>
-            <h2 style={{
-              fontSize: '40px',
-              fontWeight: '700',
-              marginTop: '16px',
-              fontFamily: '"Space Grotesk", sans-serif'
-            }}>
+            <div className="section-label" style={{ marginBottom: '16px' }}>Technical Expertise</div>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em' }}>
               Skills & Technologies
             </h2>
           </div>
-          
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))',
-            gap: '16px'
-          }}>
-            {skills.map((skill, i) => (
-              <div key={i} className="skill-card" style={{
-                animationDelay: `${i * 0.05}s`
-              }}>
-                <div style={{ fontSize: '28px', marginBottom: '12px' }}>{skill.icon}</div>
-                <div style={{ fontWeight: '600', marginBottom: '8px' }}>{skill.name}</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '28px' }}>
+            {skillCategories.map((cat, i) => (
+              <div key={i} style={{ display: 'flex', gap: '20px', alignItems: 'baseline', flexWrap: 'wrap' }}>
                 <div style={{
-                  height: '4px',
-                  background: 'rgba(48, 54, 61, 0.8)',
-                  borderRadius: '2px',
-                  overflow: 'hidden'
+                  minWidth: '200px', fontSize: '12px', fontWeight: '600', color: 'var(--c-text-3)',
+                  textTransform: 'uppercase', letterSpacing: '0.08em',
                 }}>
-                  <div style={{
-                    height: '100%',
-                    width: `${skill.level}%`,
-                    background: 'linear-gradient(90deg, #00ffc8, #00d4aa)',
-                    borderRadius: '2px',
-                    transition: 'width 1s ease'
-                  }} />
+                  {cat.name}
+                </div>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', flex: 1 }}>
+                  {cat.skills.map(skill => (
+                    <span key={skill} className="skill-chip">{skill}</span>
+                  ))}
                 </div>
               </div>
             ))}
@@ -897,86 +359,38 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Projects Section */}
+      {/* PROJECTS */}
       <section id="projects" style={{ padding: '120px 24px' }}>
-        <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-            <span style={{
-              color: '#00ffc8',
-              fontSize: '14px',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '2px'
-            }}>
-              Featured Work
-            </span>
-            <h2 style={{
-              fontSize: '40px',
-              fontWeight: '700',
-              marginTop: '16px',
-              fontFamily: '"Space Grotesk", sans-serif'
-            }}>
-              Project Gallery
+            <div className="section-label" style={{ marginBottom: '16px' }}>Featured Work</div>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em' }}>
+              Projects
             </h2>
           </div>
-          
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-            gap: '24px'
-          }}>
-            {projects.map((project, i) => (
-              <a
-                key={i}
-                href={project.github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="project-card"
-                style={{ textDecoration: 'none', color: 'inherit', display: 'block' }}
-              >
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+            {projects.map((p, i) => (
+              <a key={i} href={p.github} target="_blank" rel="noopener noreferrer"
+                className="card card-hover"
+                style={{ padding: '28px', textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}>
                 <div style={{
-                  display: 'inline-block',
-                  padding: '6px 12px',
-                  background: 'rgba(0, 255, 200, 0.1)',
-                  borderRadius: '6px',
-                  marginBottom: '16px'
+                  display: 'inline-flex', padding: '3px 10px',
+                  background: 'var(--c-accent-light)', borderRadius: 'var(--radius-full)',
+                  marginBottom: '16px', alignSelf: 'flex-start',
                 }}>
-                  <span style={{ color: '#00ffc8', fontSize: '12px', fontFamily: '"JetBrains Mono", monospace' }}>
-                    {project.tech}
+                  <span style={{ color: 'var(--c-accent)', fontSize: '11.5px', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>
+                    {p.tech}
                   </span>
                 </div>
-                <h3 style={{ fontSize: '22px', fontWeight: '600', marginBottom: '12px' }}>
-                  {project.title}
+                <h3 style={{ fontSize: '17px', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '10px', lineHeight: '1.3' }}>
+                  {p.title}
                 </h3>
-                <p style={{ color: '#8b949e', lineHeight: '1.7', marginBottom: '20px', fontSize: '15px' }}>
-                  {project.description}
+                <p style={{ color: 'var(--c-text-2)', lineHeight: '1.65', fontSize: '14px', marginBottom: '20px', flex: 1 }}>
+                  {p.description}
                 </p>
-                <div style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  paddingTop: '16px',
-                  borderTop: '1px solid rgba(48, 54, 61, 0.5)'
-                }}>
-                  <span style={{
-                    color: '#00ffc8',
-                    fontWeight: '600',
-                    fontSize: '14px'
-                  }}>
-                    {project.metrics}
-                  </span>
-                  <span style={{
-                    color: '#8b949e',
-                    fontSize: '14px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px'
-                  }}>
-                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
-                    </svg>
-                    View on GitHub →
-                  </span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '16px', borderTop: '1px solid var(--c-border-light)' }}>
+                  <span style={{ color: 'var(--c-accent)', fontSize: '13px', fontWeight: '600' }}>{p.metric}</span>
+                  <span style={{ color: 'var(--c-text-3)', fontSize: '13px' }}>View on GitHub →</span>
                 </div>
               </a>
             ))}
@@ -984,70 +398,38 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Experience Section */}
-      <section id="experience" style={{
-        padding: '120px 24px',
-        background: 'rgba(22, 27, 34, 0.3)'
-      }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+      {/* EXPERIENCE */}
+      <section id="experience" style={{ background: 'var(--c-bg-soft)', borderTop: '1px solid var(--c-border)', padding: '120px 24px' }}>
+        <div style={{ maxWidth: '820px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
-            <span style={{
-              color: '#00ffc8',
-              fontSize: '14px',
-              fontWeight: '600',
-              textTransform: 'uppercase',
-              letterSpacing: '2px'
-            }}>
-              Career Journey
-            </span>
-            <h2 style={{
-              fontSize: '40px',
-              fontWeight: '700',
-              marginTop: '16px',
-              fontFamily: '"Space Grotesk", sans-serif'
-            }}>
+            <div className="section-label" style={{ marginBottom: '16px' }}>Career Journey</div>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em' }}>
               Work Experience
             </h2>
           </div>
-          
           <div>
             {experience.map((exp, i) => (
               <div key={i} className="timeline-item">
                 <div className="timeline-dot" />
-                <div style={{
-                  background: 'rgba(22, 27, 34, 0.6)',
-                  border: '1px solid rgba(48, 54, 61, 0.5)',
-                  borderRadius: '16px',
-                  padding: '28px'
-                }}>
-                  <div style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                    flexWrap: 'wrap',
-                    gap: '12px',
-                    marginBottom: '16px'
-                  }}>
+                <div className="timeline-line" />
+                <div className="card" style={{ padding: '24px 28px' }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px', marginBottom: '16px' }}>
                     <div>
-                      <h3 style={{ fontSize: '20px', fontWeight: '600', marginBottom: '4px' }}>
+                      <h3 style={{ fontSize: '17px', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '3px' }}>
                         {exp.role}
                       </h3>
-                      <div style={{ color: '#00ffc8', fontWeight: '500' }}>{exp.company}</div>
+                      <div style={{ color: 'var(--c-accent)', fontSize: '14px', fontWeight: '600' }}>{exp.company}</div>
                     </div>
                     <div style={{ textAlign: 'right' }}>
-                      <div style={{ color: '#8b949e', fontSize: '14px' }}>{exp.period}</div>
-                      <div style={{ color: '#6e7681', fontSize: '13px' }}>{exp.type}</div>
+                      <div style={{ color: 'var(--c-text-2)', fontSize: '13px', fontWeight: '500' }}>{exp.period}</div>
+                      <div style={{ color: 'var(--c-text-3)', fontSize: '12px', marginTop: '2px' }}>{exp.type}</div>
                     </div>
                   </div>
-                  <ul style={{ margin: 0, paddingLeft: '20px' }}>
-                    {exp.highlights.map((highlight, j) => (
-                      <li key={j} style={{
-                        color: '#8b949e',
-                        lineHeight: '1.7',
-                        marginBottom: '8px',
-                        fontSize: '15px'
-                      }}>
-                        {highlight}
+                  <ul style={{ listStyle: 'none', padding: 0 }}>
+                    {exp.highlights.map((h, j) => (
+                      <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', marginBottom: j < exp.highlights.length - 1 ? '10px' : 0 }}>
+                        <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--c-accent)', marginTop: '9px', flexShrink: 0 }} />
+                        <span style={{ color: 'var(--c-text-2)', fontSize: '14px', lineHeight: '1.65' }}>{h}</span>
                       </li>
                     ))}
                   </ul>
@@ -1058,202 +440,114 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* Contact Section */}
-      <section id="contact" style={{ padding: '120px 24px', position: 'relative' }}>
-        <div className="glow-orb" style={{ bottom: '10%', right: '10%', background: '#00ffc8' }} />
-        
-        <div style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center', position: 'relative', zIndex: 1 }}>
-          <span style={{
-            color: '#00ffc8',
-            fontSize: '14px',
-            fontWeight: '600',
-            textTransform: 'uppercase',
-            letterSpacing: '2px'
-          }}>
-            Get In Touch
-          </span>
-          <h2 style={{
-            fontSize: '48px',
-            fontWeight: '700',
-            marginTop: '16px',
-            marginBottom: '24px',
-            fontFamily: '"Space Grotesk", sans-serif'
-          }}>
-            Let's Build Something{' '}
-            <span style={{ color: '#00ffc8' }}>Amazing</span>
+      {/* CONTACT */}
+      <section id="contact" style={{ padding: '120px 24px' }}>
+        <div style={{ maxWidth: '580px', margin: '0 auto', textAlign: 'center' }}>
+          <div className="section-label" style={{ marginBottom: '16px' }}>Get In Touch</div>
+          <h2 style={{ fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: '800', letterSpacing: '-0.03em', marginBottom: '16px', lineHeight: '1.1' }}>
+            Let's Build Something <span className="gradient-text">Great</span>
           </h2>
-          <p style={{ color: '#8b949e', fontSize: '18px', lineHeight: '1.8', marginBottom: '48px' }}>
-            Currently taking on 2-3 consulting projects. Whether you need to migrate to the cloud, 
-            set up CI/CD pipelines, or scale your infrastructure, I'm here to help.
+          <p style={{ color: 'var(--c-text-2)', fontSize: '17px', lineHeight: '1.75', marginBottom: '48px' }}>
+            Currently taking on 2–3 consulting projects. Whether you need a cloud migration,
+            CI/CD pipelines, or infrastructure at scale — I'm here to help.
           </p>
-          
-          <div style={{
-            background: 'rgba(22, 27, 34, 0.6)',
-            border: '1px solid rgba(48, 54, 61, 0.5)',
-            borderRadius: '20px',
-            padding: '40px',
-            textAlign: 'left'
-          }}>
+
+          <div className="card" style={{ padding: '36px', textAlign: 'left' }}>
             {formState.succeeded ? (
-              <div style={{ textAlign: 'center', padding: '40px 20px' }}>
-                <div style={{ fontSize: '48px', marginBottom: '16px' }}>✅</div>
-                <h3 style={{ fontSize: '24px', fontWeight: '600', marginBottom: '12px', color: '#00ffc8' }}>
-                  Message Sent!
-                </h3>
-                <p style={{ color: '#8b949e', fontSize: '16px' }}>
-                  Thanks for reaching out! I'll get back to you within 24-48 hours.
-                </p>
+              <div style={{ textAlign: 'center', padding: '32px 16px' }}>
+                <div style={{
+                  width: '48px', height: '48px', borderRadius: '50%', margin: '0 auto 16px',
+                  background: 'var(--c-success-bg)', border: '1px solid var(--c-success-border)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                }}>
+                  <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+                    <path d="M4 11l5 5L18 6" stroke="var(--c-success)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </div>
+                <h3 style={{ fontSize: '20px', fontWeight: '700', marginBottom: '8px' }}>Message Sent!</h3>
+                <p style={{ color: 'var(--c-text-2)', fontSize: '15px' }}>I'll get back to you within 24–48 hours.</p>
               </div>
             ) : (
-              <form onSubmit={handleFormSubmit} style={{ display: 'grid', gap: '20px' }}>
+              <form onSubmit={handleFormSubmit} style={{ display: 'grid', gap: '18px' }}>
                 <div>
-                  <label htmlFor="name" style={{ display: 'block', marginBottom: '8px', color: '#8b949e', fontSize: '14px' }}>
-                    Your Name
-                  </label>
-                  <input
-                    id="name"
-                    type="text"
-                    name="name"
-                    placeholder="John Doe"
-                    required
-                    style={{
-                      width: '100%',
-                      padding: '14px 16px',
-                      background: 'rgba(13, 17, 23, 0.8)',
-                      border: '1px solid rgba(48, 54, 61, 0.8)',
-                      borderRadius: '8px',
-                      color: '#e6edf3',
-                      fontSize: '15px',
-                      fontFamily: 'inherit',
-                      transition: 'all 0.3s ease'
-                    }}
-                  />
-                  <ValidationError prefix="Name" field="name" errors={formState.errors} style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '6px' }} />
+                  <label htmlFor="name" className="form-label">Your Name</label>
+                  <input id="name" name="name" type="text" required placeholder="John Doe" className="form-input" />
+                  <ValidationError prefix="Name" field="name" errors={formState.errors}
+                    style={{ color: 'var(--c-error)', fontSize: '13px', marginTop: '4px', display: 'block' }} />
                 </div>
                 <div>
-                  <label htmlFor="email" style={{ display: 'block', marginBottom: '8px', color: '#8b949e', fontSize: '14px' }}>
-                    Email Address
-                  </label>
-                  <input
-                    id="email"
-                    type="email"
-                    name="email"
-                    placeholder="john@company.com"
-                    required
-                    style={{
-                      width: '100%',
-                      padding: '14px 16px',
-                      background: 'rgba(13, 17, 23, 0.8)',
-                      border: '1px solid rgba(48, 54, 61, 0.8)',
-                      borderRadius: '8px',
-                      color: '#e6edf3',
-                      fontSize: '15px',
-                      fontFamily: 'inherit',
-                      transition: 'all 0.3s ease'
-                    }}
-                  />
-                  <ValidationError prefix="Email" field="email" errors={formState.errors} style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '6px' }} />
+                  <label htmlFor="email" className="form-label">Email Address</label>
+                  <input id="email" name="email" type="email" required placeholder="john@company.com" className="form-input" />
+                  <ValidationError prefix="Email" field="email" errors={formState.errors}
+                    style={{ color: 'var(--c-error)', fontSize: '13px', marginTop: '4px', display: 'block' }} />
                 </div>
                 <div>
-                  <label htmlFor="message" style={{ display: 'block', marginBottom: '8px', color: '#8b949e', fontSize: '14px' }}>
-                    Project Details
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={4}
-                    placeholder="Tell me about your project, timeline, and any specific requirements..."
-                    required
-                    style={{
-                      width: '100%',
-                      padding: '14px 16px',
-                      background: 'rgba(13, 17, 23, 0.8)',
-                      border: '1px solid rgba(48, 54, 61, 0.8)',
-                      borderRadius: '8px',
-                      color: '#e6edf3',
-                      fontSize: '15px',
-                      fontFamily: 'inherit',
-                      resize: 'vertical',
-                      transition: 'all 0.3s ease'
-                    }}
-                  />
-                  <ValidationError prefix="Message" field="message" errors={formState.errors} style={{ color: '#ff6b6b', fontSize: '13px', marginTop: '6px' }} />
+                  <label htmlFor="message" className="form-label">Project Details</label>
+                  <textarea id="message" name="message" rows={4} required className="form-input"
+                    placeholder="Tell me about your project, timeline, and requirements…"
+                    style={{ resize: 'vertical' }} />
+                  <ValidationError prefix="Message" field="message" errors={formState.errors}
+                    style={{ color: 'var(--c-error)', fontSize: '13px', marginTop: '4px', display: 'block' }} />
                 </div>
-                <button 
-                  type="submit" 
-                  disabled={formState.submitting}
-                  className="cta-button" 
-                  style={{ 
-                    width: '100%', 
-                    marginTop: '8px',
-                    opacity: formState.submitting ? 0.7 : 1,
-                    cursor: formState.submitting ? 'not-allowed' : 'pointer'
-                  }}
-                >
-                  {formState.submitting ? 'Sending...' : 'Book Free Consultation →'}
+                <button type="submit" disabled={formState.submitting} className="btn btn-primary"
+                  style={{ width: '100%', justifyContent: 'center', marginTop: '4px', opacity: formState.submitting ? 0.7 : 1, cursor: formState.submitting ? 'not-allowed' : 'pointer' }}>
+                  {formState.submitting ? 'Sending…' : 'Send Message →'}
                 </button>
               </form>
             )}
           </div>
-          
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '24px',
-            marginTop: '40px',
-            flexWrap: 'wrap'
-          }}>
-            <a href="mailto:hello@preciousokpor.com" style={{
-              color: '#8b949e',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px',
-              transition: 'color 0.3s ease'
-            }}>
-              📧 hello@preciousokpor.com
+
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '28px', marginTop: '36px', flexWrap: 'wrap' }}>
+            <a href="mailto:preciousokpor@proton.me" className="social-link">
+              <svg width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+              preciousokpor@proton.me
             </a>
-            <a href="https://www.linkedin.com/in/dev-pops/" target="_blank" rel="noopener noreferrer" style={{
-              color: '#8b949e',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              💼 LinkedIn
+            <a href="https://www.linkedin.com/in/dev-pops/" target="_blank" rel="noopener noreferrer" className="social-link">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+              LinkedIn
             </a>
-            <a href="https://github.com/poppyszn" target="_blank" rel="noopener noreferrer" style={{
-              color: '#8b949e',
-              textDecoration: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '8px'
-            }}>
-              🐙 GitHub
+            <a href="https://github.com/poppyszn" target="_blank" rel="noopener noreferrer" className="social-link">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+              </svg>
+              GitHub
             </a>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{
-        padding: '40px 24px',
-        borderTop: '1px solid rgba(48, 54, 61, 0.4)',
-        textAlign: 'center'
-      }}>
-        <div style={{
-          fontFamily: '"JetBrains Mono", monospace',
-          fontSize: '18px',
-          fontWeight: '600',
-          color: '#00ffc8',
-          marginBottom: '16px'
-        }}>
-          {'<PO />'}
+      {/* FOOTER */}
+      <footer style={{ borderTop: '1px solid var(--c-border)', background: 'var(--c-bg-soft)', padding: '32px 24px' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px' }}>
+          <span style={{ fontFamily: 'var(--font-mono)', fontSize: '16px', fontWeight: '600', color: 'var(--c-accent)' }}>
+            {'<PO />'}
+          </span>
+          <p style={{ color: 'var(--c-text-3)', fontSize: '13px' }}>
+            © 2025 Precious Okpor · Lead DevOps Engineer
+          </p>
+          <div style={{ display: 'flex', gap: '20px' }}>
+            {[
+              { label: 'GitHub', href: 'https://github.com/poppyszn' },
+              { label: 'LinkedIn', href: 'https://www.linkedin.com/in/dev-pops/' },
+              { label: 'Resume', href: '/resume.pdf', download: true },
+            ].map(link => (
+              <a key={link.label} href={link.href} target={link.download ? undefined : '_blank'}
+                rel={link.download ? undefined : 'noopener noreferrer'}
+                download={link.download || undefined}
+                style={{ color: 'var(--c-text-3)', fontSize: '13px', textDecoration: 'none', transition: 'color var(--t-fast)' }}
+                onMouseEnter={e => e.currentTarget.style.color = 'var(--c-text-2)'}
+                onMouseLeave={e => e.currentTarget.style.color = 'var(--c-text-3)'}>
+                {link.label}
+              </a>
+            ))}
+          </div>
         </div>
-        <p style={{ color: '#6e7681', fontSize: '14px' }}>
-          © 2025 Precious Okpor. Deployed with ❤️ and way too much coffee.
-        </p>
       </footer>
+
     </div>
   );
 }
