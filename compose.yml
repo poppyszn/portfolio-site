@@ -1,9 +1,7 @@
 services:
   precious-portfolio:
     container_name: precious-portfolio
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: harbor.local/homelab/portfolio:latest
     restart: unless-stopped
     ports:
       - 8888:80
