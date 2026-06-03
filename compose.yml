@@ -4,4 +4,4 @@ services:
     image: harbor.local/homelab/portfolio:latest
     restart: unless-stopped
     ports:
-      - 8888:80
+      - ${PORT:-8888}:80

@@ -33,7 +33,7 @@ pipeline {
                     passwordVariable: 'HARBOR_PASS'
                 )]) {
                     sh """
-                        echo "${HARBOR_PASS}" | docker login ${HARBOR_REGISTRY} -u ${HARBOR_USER} --password-stdin
+                        echo "\$HARBOR_PASS" | docker login ${HARBOR_REGISTRY} -u "\$HARBOR_USER" --password-stdin
                         docker push ${FULL_IMAGE}
                         docker push ${LATEST_IMAGE}
                         docker logout ${HARBOR_REGISTRY}
@@ -54,7 +54,7 @@ pipeline {
                     passwordVariable: 'HARBOR_PASS'
                 )]) {
                     sh """
-                        echo "${HARBOR_PASS}" | docker login ${HARBOR_REGISTRY} -u ${HARBOR_USER} --password-stdin
+                        echo "\$HARBOR_PASS" | docker login ${HARBOR_REGISTRY} -u "\$HARBOR_USER" --password-stdin
                         docker pull ${LATEST_IMAGE}
                         docker logout ${HARBOR_REGISTRY}
 
