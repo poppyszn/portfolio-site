@@ -46,7 +46,7 @@ pipeline {
             steps {
                 sh """
                     mkdir -p ${APP_DIR}
-                    rsync -a --no-group --delete --exclude='.git' ${WORKSPACE}/ ${APP_DIR}/
+                    rsync -a --no-group --omit-dir-times --delete --exclude='.git' ${WORKSPACE}/ ${APP_DIR}/
                 """
                 withCredentials([usernamePassword(
                     credentialsId: "${HARBOR_CREDS}",
