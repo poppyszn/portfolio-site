@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: portfolio
+  namespace: portfolio
+  labels:
+    app.kubernetes.io/name: portfolio
+  annotations: {}   # TLS handled by Cloudflare — no cert-manager needed
+spec:
+  ingressClassName: traefik   # k3s default; change to "nginx" if using ingress-nginx
+  rules:
+    - host: dev-pops.site
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: portfolio
+                port:
+                  name: http

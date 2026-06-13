@@ -1,0 +1,15 @@
+Portfolio deployed successfully!
+
+Access your site at:
+{{- if .Values.ingress.enabled }}
+  http{{ if .Values.ingress.tls.enabled }}s{{ end }}://{{ .Values.ingress.host }}
+{{- else }}
+  kubectl port-forward -n {{ .Release.Namespace }} svc/{{ include "portfolio.fullname" . }} 8080:80
+  Then open http://localhost:8080
+{{- end }}
+
+Check rollout status:
+  kubectl rollout status deployment/{{ include "portfolio.fullname" . }} -n {{ .Release.Namespace }}
+
+View logs:
+  kubectl logs -n {{ .Release.Namespace }} -l app.kubernetes.io/name={{ include "portfolio.name" . }} -f

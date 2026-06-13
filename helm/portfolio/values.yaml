@@ -1,0 +1,57 @@
+# yaml-language-server: $schema=
+# Default values for the portfolio Helm chart.
+# Override these in argocd/application.yaml or with --set / -f flags.
+
+replicaCount: 1
+
+image:
+  repository: harbor.dev-pops.site/homelab/portfolio
+  tag: latest
+  pullPolicy: Always
+
+imagePullSecrets:
+  - name: harbor-creds
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: true
+  className: traefik   # k3s default — change to "nginx" if using ingress-nginx
+  host: dev-pops.site
+  annotations: {}   # TLS handled by Cloudflare — no annotations needed
+  tls:
+    enabled: false
+    secretName: ""
+
+resources:
+  requests:
+    cpu: 10m
+    memory: 32Mi
+  limits:
+    cpu: 100m
+    memory: 64Mi
+
+# Health checks
+livenessProbe:
+  httpGet:
+    path: /
+    port: 80
+  initialDelaySeconds: 10
+  periodSeconds: 30
+  timeoutSeconds: 3
+
+readinessProbe:
+  httpGet:
+    path: /
+    port: 80
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 3
+
+podAnnotations: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
