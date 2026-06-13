@@ -6,7 +6,7 @@ replicaCount: 2
 
 image:
   repository: harbor.dev-pops.site/homelab/portfolio
-  tag: latest
+  tag: 8dccd2a
   pullPolicy: Always
 
 imagePullSecrets:

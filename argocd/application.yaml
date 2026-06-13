@@ -14,15 +14,11 @@ spec:
     path: helm/portfolio
     helm:
       values: |
-        image:
-          repository: harbor.dev-pops.site/homelab/portfolio
-          tag: 8dccd2a
         imagePullSecrets:
           - name: harbor-creds
         ingress:
           host: dev-pops.site
           className: traefik
-          # TLS is handled by Cloudflare — nothing needed here
 
   destination:
     server: https://kubernetes.default.svc
