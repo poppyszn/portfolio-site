@@ -195,9 +195,44 @@ export default function Portfolio() {
               </a>
             ))}
           </div>
-          <button className="btn btn-primary btn-sm" onClick={() => scrollTo('contact')}>
-            Let's Talk
-          </button>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <a href="https://github.com/poppyszn/portfolio-site/actions/workflows/build-push.yml"
+               target="_blank" rel="noopener noreferrer"
+               className="hide-mobile"
+               style={{ display: 'inline-block', lineHeight: 0 }}>
+              <img
+                src="https://github.com/poppyszn/portfolio-site/actions/workflows/build-push.yml/badge.svg"
+                alt="Build & Push"
+                style={{ height: '20px' }}
+              />
+            </a>
+            <a href="https://status.dev-pops.site/status/homelab"
+               target="_blank" rel="noopener noreferrer"
+               className="hide-mobile"
+               style={{
+                 display: 'inline-flex', alignItems: 'center', gap: '6px',
+                 padding: '5px 11px',
+                 background: 'var(--c-success-bg)',
+                 border: '1px solid var(--c-success-border)',
+                 borderRadius: 'var(--radius-full)',
+                 fontSize: '12.5px', fontWeight: '600', color: 'var(--c-success)',
+                 textDecoration: 'none',
+                 transition: 'opacity var(--t-fast)',
+               }}
+               onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
+               onMouseLeave={e => e.currentTarget.style.opacity = '1'}>
+              <span style={{
+                width: '7px', height: '7px', borderRadius: '50%',
+                background: 'var(--c-success)',
+                animation: 'pulseDot 2.5s ease-in-out infinite',
+                flexShrink: 0,
+              }} />
+              Status
+            </a>
+            <button className="btn btn-primary btn-sm" onClick={() => scrollTo('contact')}>
+              Let's Talk
+            </button>
+          </div>
         </div>
       </nav>
 
@@ -416,18 +451,9 @@ export default function Portfolio() {
         <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <div className="section-label" style={{ marginBottom: '16px' }}>Featured Work</div>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em', marginBottom: '16px' }}>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em' }}>
               Projects
             </h2>
-            <a href="https://github.com/poppyszn/portfolio-site/actions/workflows/build-push.yml"
-               target="_blank" rel="noopener noreferrer"
-               style={{ display: 'inline-block', lineHeight: 0 }}>
-              <img
-                src="https://github.com/poppyszn/portfolio-site/actions/workflows/build-push.yml/badge.svg"
-                alt="Build & Push to Harbor"
-                style={{ height: '20px' }}
-              />
-            </a>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
             {projects.map((p, i) => (
