@@ -16,7 +16,7 @@ on:
 jobs:
   build-push:
     name: Build and push image
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     permissions:
       contents: write   # needed to push the image tag commit back to git
 
@@ -28,28 +28,21 @@ jobs:
 
       - name: Set short SHA
         id: sha
-        run: echo "short=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+        run: echo "short=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
 
       - name: Log in to Harbor
-        uses: docker/login-action@v3
-        with:
-          registry: harbor.dev-pops.site
-          username: ${{ secrets.HARBOR_USERNAME }}
-          password: ${{ secrets.HARBOR_PASSWORD }}
+        run: echo "${{ secrets.HARBOR_PASSWORD }}" | docker login harbor.dev-pops.site -u "${{ secrets.HARBOR_USERNAME }}" --password-stdin
 
-      - name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: |
-            harbor.dev-pops.site/homelab/portfolio:latest
-            harbor.dev-pops.site/homelab/portfolio:${{ steps.sha.outputs.short }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+      - name: Build image
+        run: |
+          docker build -t harbor.dev-pops.site/homelab/portfolio:${{ steps.sha.outputs.short }} \
+                       -t harbor.dev-pops.site/homelab/portfolio:latest \
+                       .
+
+      - name: Push image
+        run: |
+          docker push harbor.dev-pops.site/homelab/portfolio:${{ steps.sha.outputs.short }}
+          docker push harbor.dev-pops.site/homelab/portfolio:latest
 
       - name: Update image tag in ArgoCD manifest
         run: |
