@@ -2,7 +2,7 @@
 # Default values for the portfolio Helm chart.
 # Override these in argocd/application.yaml or with --set / -f flags.
 
-replicaCount: 1
+replicaCount: 2
 
 image:
   repository: harbor.dev-pops.site/homelab/portfolio
