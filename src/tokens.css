@@ -296,6 +296,36 @@ section[id] { scroll-margin-top: 80px; }
 }
 .social-link:hover { color: var(--c-text); }
 
+/* Upcoming project status badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+.status-badge::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.7;
+}
+.status-planning {
+  background: #FFF7ED;
+  color: #C2410C;
+  border: 1px solid #FED7AA;
+}
+.status-in-progress {
+  background: var(--c-accent-light);
+  color: var(--c-accent);
+  border: 1px solid var(--c-accent-border);
+  animation: pulseDot 2.5s ease-in-out infinite;
+}
+
 /* Responsive */
 @media (max-width: 768px) { .hide-mobile { display: none !important; } }
 

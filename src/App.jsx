@@ -5,7 +5,7 @@ import './tokens.css';
 const skillCategories = [
   { name: 'Cloud & Infrastructure',       skills: ['AWS', 'Terraform', 'Ansible', 'Vagrant'] },
   { name: 'Containers & Orchestration',   skills: ['Docker', 'Kubernetes', 'K3S', 'ArgoCD', 'Helm'] },
-  { name: 'CI/CD & Automation',           skills: ['GitHub Actions', 'GitLab CI', 'Jenkins', 'n8n'] },
+  { name: 'CI/CD & Automation',           skills: ['GitHub Actions', 'GitLab CI', 'Jenkins'] },
   { name: 'Monitoring & Observability',   skills: ['Prometheus', 'Grafana', 'Alertmanager'] },
   { name: 'Systems & Languages',          skills: ['Linux', 'Python', 'Bash', 'Nginx', 'Git'] },
 ];
@@ -79,6 +79,61 @@ const experience = [
   },
 ];
 
+const homelabStack = [
+  {
+    name: 'k3s',
+    role: 'Container Orchestration',
+    description: 'Lightweight Kubernetes on a repurposed desktop — single node, production-grade config managing all cluster workloads.',
+  },
+  {
+    name: 'Traefik',
+    role: 'Ingress Controller',
+    description: 'Routes all inbound traffic across services and handles TLS termination within the cluster.',
+  },
+  {
+    name: 'ArgoCD',
+    role: 'GitOps CD',
+    description: 'Watches the Git repo and automatically syncs any manifest or Helm chart changes to the cluster.',
+  },
+  {
+    name: 'Harbor',
+    role: 'Container Registry',
+    description: 'Self-hosted registry at harbor.dev-pops.site — stores and serves all container images built by CI.',
+  },
+  {
+    name: 'cert-manager',
+    role: 'TLS Automation',
+    description: 'Automatically provisions and renews TLS certificates for all services running in the cluster.',
+  },
+];
+
+const upcomingProjects = [
+  {
+    title: 'Homelab IaC Repository',
+    tag: 'Infrastructure as Code',
+    description: 'Open-sourcing all homelab infrastructure — k3s Helm charts, ArgoCD applications, and Terraform configs — as a living, versioned record of how the lab is built.',
+    status: 'In Progress',
+  },
+  {
+    title: 'Uptime Kuma',
+    tag: 'Monitoring',
+    description: 'Self-hosted status page monitoring all homelab services with public-facing uptime history — concrete proof that the infrastructure is live and maintained.',
+    status: 'Planning',
+  },
+  {
+    title: 'Loki + Promtail',
+    tag: 'Observability',
+    description: 'Completing the observability stack with cluster-wide log aggregation alongside the existing Prometheus and Grafana setup. Full metrics, logs, and alerting in one place.',
+    status: 'Planning',
+  },
+  {
+    title: 'HashiCorp Vault',
+    tag: 'Security',
+    description: 'Proper secret management on k3s — dynamic secrets, lease-based access, and policy-driven control replacing manual kubectl secret creation across the cluster.',
+    status: 'Planning',
+  },
+];
+
 const stats = [
   { value: '40%',  label: 'Faster Deployments' },
   { value: '99.9%', label: 'Uptime Achieved' },
@@ -133,7 +188,7 @@ export default function Portfolio() {
             {'<PO />'}
           </span>
           <div className="hide-mobile" style={{ display: 'flex', gap: '2px' }}>
-            {['Home', 'About', 'Skills', 'Projects', 'Experience', 'Contact'].map(item => (
+            {['Home', 'About', 'Skills', 'Projects', 'Homelab', 'Experience', 'Contact'].map(item => (
               <a key={item} href={`#${item.toLowerCase()}`} className="nav-link"
                 onClick={e => { e.preventDefault(); scrollTo(item.toLowerCase()); }}>
                 {item}
@@ -210,9 +265,6 @@ export default function Portfolio() {
                     <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
                   </svg>
                   LinkedIn
-                </a>
-                <a href="https://github.com/poppyszn/n8n-automation-portfolio" target="_blank" rel="noopener noreferrer" className="social-link">
-                  n8n Automations ↗
                 </a>
               </div>
             </div>
@@ -311,7 +363,7 @@ export default function Portfolio() {
                 'GitHub Actions pipelines for multi-env deployments',
                 'Container orchestration with Docker & Kubernetes',
                 'Monitoring solutions with Prometheus & Grafana',
-                'n8n workflow automation & API integrations',
+                'Kubernetes cluster management with ArgoCD GitOps workflows',
               ].map((item, i, arr) => (
                 <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '12px', marginBottom: i < arr.length - 1 ? '14px' : 0 }}>
                   <div style={{
@@ -364,9 +416,18 @@ export default function Portfolio() {
         <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
           <div style={{ textAlign: 'center', marginBottom: '64px' }}>
             <div className="section-label" style={{ marginBottom: '16px' }}>Featured Work</div>
-            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em' }}>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em', marginBottom: '16px' }}>
               Projects
             </h2>
+            <a href="https://github.com/poppyszn/portfolio-site/actions/workflows/build-push.yml"
+               target="_blank" rel="noopener noreferrer"
+               style={{ display: 'inline-block', lineHeight: 0 }}>
+              <img
+                src="https://github.com/poppyszn/portfolio-site/actions/workflows/build-push.yml/badge.svg"
+                alt="Build & Push to Harbor"
+                style={{ height: '20px' }}
+              />
+            </a>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
             {projects.map((p, i) => (
@@ -393,6 +454,138 @@ export default function Portfolio() {
                   <span style={{ color: 'var(--c-text-3)', fontSize: '13px' }}>View on GitHub →</span>
                 </div>
               </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* HOMELAB */}
+      <section id="homelab" style={{ background: 'var(--c-bg-soft)', borderTop: '1px solid var(--c-border)', padding: '120px 24px' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <div className="section-label" style={{ marginBottom: '16px' }}>Infrastructure</div>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em', marginBottom: '12px' }}>
+              Homelab
+            </h2>
+            <p style={{ color: 'var(--c-text-2)', fontSize: '16px', maxWidth: '560px', margin: '0 auto' }}>
+              A self-managed k3s cluster running on a repurposed desktop — not a cloud lab, real hardware I operate daily.
+            </p>
+          </div>
+
+          {/* Pipeline flow */}
+          <div style={{ marginBottom: '56px' }}>
+            <p style={{ textAlign: 'center', fontSize: '12px', fontWeight: '600', color: 'var(--c-text-3)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '20px' }}>
+              GitOps Delivery Pipeline
+            </p>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', flexWrap: 'wrap' }}>
+              {['git push', 'GitHub Actions', 'Harbor Registry', 'ArgoCD', 'k3s Cluster'].map((step, i, arr) => [
+                <div key={`step-${i}`} style={{
+                  padding: '8px 16px',
+                  background: 'var(--c-bg)',
+                  border: '1.5px solid var(--c-accent-border)',
+                  borderRadius: 'var(--radius-md)',
+                  fontSize: '13px',
+                  fontWeight: '600',
+                  color: 'var(--c-accent)',
+                  fontFamily: 'var(--font-mono)',
+                  whiteSpace: 'nowrap',
+                }}>
+                  {step}
+                </div>,
+                i < arr.length - 1 && (
+                  <span key={`arrow-${i}`} style={{ color: 'var(--c-text-3)', fontSize: '18px', lineHeight: 1, flexShrink: 0 }}>→</span>
+                ),
+              ])}
+            </div>
+          </div>
+
+          {/* Service cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '16px' }}>
+            {homelabStack.map((svc, i) => (
+              <div key={i} className="card" style={{ padding: '24px', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ marginBottom: '8px' }}>
+                  <span style={{
+                    fontFamily: 'var(--font-mono)',
+                    fontWeight: '700',
+                    fontSize: '15px',
+                    color: 'var(--c-text)',
+                  }}>
+                    {svc.name}
+                  </span>
+                </div>
+                <div style={{
+                  fontSize: '11.5px',
+                  fontWeight: '600',
+                  color: 'var(--c-accent)',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.06em',
+                  marginBottom: '10px',
+                }}>
+                  {svc.role}
+                </div>
+                <p style={{ color: 'var(--c-text-2)', fontSize: '13.5px', lineHeight: '1.6', flex: 1 }}>
+                  {svc.description}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Hardware note */}
+          <div style={{
+            marginTop: '40px',
+            padding: '16px 24px',
+            background: 'var(--c-bg)',
+            border: '1px solid var(--c-border)',
+            borderRadius: 'var(--radius-md)',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+          }}>
+            <span style={{ fontSize: '20px' }}>🖥</span>
+            <p style={{ color: 'var(--c-text-2)', fontSize: '14px', lineHeight: '1.5' }}>
+              <strong style={{ color: 'var(--c-text)' }}>Hardware:</strong> Old desktop repurposed as a single-node k3s server.
+              Domain: <span style={{ fontFamily: 'var(--font-mono)', color: 'var(--c-accent)', fontSize: '13px' }}>dev-pops.site</span> —
+              Cloudflare DNS + TLS, routed through Traefik ingress.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* UPCOMING PROJECTS */}
+      <section style={{ borderTop: '1px solid var(--c-border)', padding: '120px 24px' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
+          <div style={{ textAlign: 'center', marginBottom: '64px' }}>
+            <div className="section-label" style={{ marginBottom: '16px' }}>What's Next</div>
+            <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em', marginBottom: '12px' }}>
+              Upcoming Projects
+            </h2>
+            <p style={{ color: 'var(--c-text-2)', fontSize: '16px', maxWidth: '520px', margin: '0 auto' }}>
+              Homelab infrastructure projects I'm building and open-sourcing on my personal k3s cluster.
+            </p>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
+            {upcomingProjects.map((p, i) => (
+              <div key={i} className="card" style={{ padding: '28px', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', gap: '12px' }}>
+                  <div style={{
+                    display: 'inline-flex', padding: '3px 10px',
+                    background: 'var(--c-accent-light)', borderRadius: 'var(--radius-full)',
+                  }}>
+                    <span style={{ color: 'var(--c-accent)', fontSize: '11.5px', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>
+                      {p.tag}
+                    </span>
+                  </div>
+                  <span className={`status-badge ${p.status === 'In Progress' ? 'status-in-progress' : 'status-planning'}`}>
+                    {p.status}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: '17px', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '10px', lineHeight: '1.3' }}>
+                  {p.title}
+                </h3>
+                <p style={{ color: 'var(--c-text-2)', lineHeight: '1.65', fontSize: '14px', flex: 1 }}>
+                  {p.description}
+                </p>
+              </div>
             ))}
           </div>
         </div>
