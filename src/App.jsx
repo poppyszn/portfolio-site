@@ -79,6 +79,21 @@ const experience = [
   },
 ];
 
+const articles = [
+  {
+    title: 'How I Containerised 5 Monoliths and Deployed Them to EKS',
+    summary: 'A hands-on breakdown of migrating five legacy monolith apps into containers and shipping them to production EKS — covering Dockerfile patterns, ECR, and a full CI/CD pipeline.',
+    href: 'https://dev.to/devpops/how-i-containerised-5-monoliths-and-deployed-them-to-eks-3p2',
+    tag: 'Docker · EKS · CI/CD',
+  },
+  {
+    title: 'How to Properly Set Up k3s on Your Homelab or Server (2026 Edition)',
+    summary: 'The definitive guide to getting k3s production-ready — from bare metal to a fully functioning cluster with Traefik ingress, cert-manager, and ArgoCD GitOps.',
+    href: 'https://dev.to/devpops/how-to-properly-set-up-k3s-on-your-homelab-or-server-2026-edition-595',
+    tag: 'k3s · Kubernetes · Homelab',
+  },
+];
+
 const homelabStack = [
   {
     name: 'k3s',
@@ -301,6 +316,12 @@ export default function Portfolio() {
                   </svg>
                   LinkedIn
                 </a>
+                <a href="https://dev.to/devpops" target="_blank" rel="noopener noreferrer" className="social-link">
+                  <svg width="17" height="17" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M7.42 10.05c-.18-.16-.46-.23-.84-.23H6l.02 2.44.04 2.45.56-.02c.41 0 .63-.07.83-.26.24-.24.26-.36.26-2.2 0-1.91-.02-1.96-.29-2.18zM0 4.94v14.12h24V4.94H0zM8.56 15.3c-.44.58-1.06.77-2.53.77H4.71V8.53h1.4c1.67 0 2.16.18 2.6.9.27.43.29.6.32 2.57.05 2.23-.02 2.73-.47 3.3zm5.09-5.47h-2.47v1.77h1.52v1.28l-.72.04-.75.03v1.77l1.22.03 1.2.04v1.28h-1.6c-1.53 0-1.6-.01-1.87-.3l-.3-.28v-3.16c0-3.02.01-3.18.25-3.48.23-.31.25-.31 1.88-.31h1.64v1.29zm4.68 5.45c-.17.43-.64.79-1 .79-.18 0-.45-.15-.67-.39-.32-.32-.45-.63-.82-2.08l-.9-3.39-.45-1.67h.76c.4 0 .75.02.75.05 0 .06 1.16 4.54 1.26 4.83.04.15.32-.7.73-2.3l.66-2.52.74-.04c.4-.02.73 0 .73.04 0 .14-1.67 6.38-1.8 6.68z"/>
+                  </svg>
+                  dev.to
+                </a>
               </div>
             </div>
 
@@ -478,6 +499,58 @@ export default function Portfolio() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '16px', borderTop: '1px solid var(--c-border-light)' }}>
                   <span style={{ color: 'var(--c-accent)', fontSize: '13px', fontWeight: '600' }}>{p.metric}</span>
                   <span style={{ color: 'var(--c-text-3)', fontSize: '13px' }}>View on GitHub →</span>
+                </div>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* WRITING */}
+      <section id="writing" style={{ borderTop: '1px solid var(--c-border)', padding: '120px 24px' }}>
+        <div style={{ maxWidth: '1120px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: '16px', marginBottom: '48px' }}>
+            <div>
+              <div className="section-label" style={{ marginBottom: '12px' }}>Technical Writing</div>
+              <h2 style={{ fontSize: 'clamp(28px, 4vw, 38px)', fontWeight: '800', letterSpacing: '-0.03em' }}>
+                Articles
+              </h2>
+            </div>
+            <a href="https://dev.to/devpops" target="_blank" rel="noopener noreferrer"
+               style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--c-text-2)', fontSize: '14px', fontWeight: '500', textDecoration: 'none', transition: 'color var(--t-fast)' }}
+               onMouseEnter={e => e.currentTarget.style.color = 'var(--c-text)'}
+               onMouseLeave={e => e.currentTarget.style.color = 'var(--c-text-2)'}>
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7.42 10.05c-.18-.16-.46-.23-.84-.23H6l.02 2.44.04 2.45.56-.02c.41 0 .63-.07.83-.26.24-.24.26-.36.26-2.2 0-1.91-.02-1.96-.29-2.18zM0 4.94v14.12h24V4.94H0zM8.56 15.3c-.44.58-1.06.77-2.53.77H4.71V8.53h1.4c1.67 0 2.16.18 2.6.9.27.43.29.6.32 2.57.05 2.23-.02 2.73-.47 3.3zm5.09-5.47h-2.47v1.77h1.52v1.28l-.72.04-.75.03v1.77l1.22.03 1.2.04v1.28h-1.6c-1.53 0-1.6-.01-1.87-.3l-.3-.28v-3.16c0-3.02.01-3.18.25-3.48.23-.31.25-.31 1.88-.31h1.64v1.29zm4.68 5.45c-.17.43-.64.79-1 .79-.18 0-.45-.15-.67-.39-.32-.32-.45-.63-.82-2.08l-.9-3.39-.45-1.67h.76c.4 0 .75.02.75.05 0 .06 1.16 4.54 1.26 4.83.04.15.32-.7.73-2.3l.66-2.52.74-.04c.4-.02.73 0 .73.04 0 .14-1.67 6.38-1.8 6.68z"/>
+              </svg>
+              All articles on dev.to →
+            </a>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '20px' }}>
+            {articles.map((a, i) => (
+              <a key={i} href={a.href} target="_blank" rel="noopener noreferrer"
+                 className="card card-hover"
+                 style={{ padding: '32px', textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}>
+                <div style={{
+                  display: 'inline-flex', padding: '3px 10px',
+                  background: 'var(--c-accent-light)', borderRadius: 'var(--radius-full)',
+                  marginBottom: '16px', alignSelf: 'flex-start',
+                }}>
+                  <span style={{ color: 'var(--c-accent)', fontSize: '11.5px', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>
+                    {a.tag}
+                  </span>
+                </div>
+                <h3 style={{ fontSize: '17px', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '12px', lineHeight: '1.35', flex: 1 }}>
+                  {a.title}
+                </h3>
+                <p style={{ color: 'var(--c-text-2)', fontSize: '14px', lineHeight: '1.65', marginBottom: '20px' }}>
+                  {a.summary}
+                </p>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', paddingTop: '16px', borderTop: '1px solid var(--c-border-light)' }}>
+                  <svg width="13" height="13" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M7.42 10.05c-.18-.16-.46-.23-.84-.23H6l.02 2.44.04 2.45.56-.02c.41 0 .63-.07.83-.26.24-.24.26-.36.26-2.2 0-1.91-.02-1.96-.29-2.18zM0 4.94v14.12h24V4.94H0zM8.56 15.3c-.44.58-1.06.77-2.53.77H4.71V8.53h1.4c1.67 0 2.16.18 2.6.9.27.43.29.6.32 2.57.05 2.23-.02 2.73-.47 3.3zm5.09-5.47h-2.47v1.77h1.52v1.28l-.72.04-.75.03v1.77l1.22.03 1.2.04v1.28h-1.6c-1.53 0-1.6-.01-1.87-.3l-.3-.28v-3.16c0-3.02.01-3.18.25-3.48.23-.31.25-.31 1.88-.31h1.64v1.29zm4.68 5.45c-.17.43-.64.79-1 .79-.18 0-.45-.15-.67-.39-.32-.32-.45-.63-.82-2.08l-.9-3.39-.45-1.67h.76c.4 0 .75.02.75.05 0 .06 1.16 4.54 1.26 4.83.04.15.32-.7.73-2.3l.66-2.52.74-.04c.4-.02.73 0 .73.04 0 .14-1.67 6.38-1.8 6.68z"/>
+                  </svg>
+                  <span style={{ color: 'var(--c-accent)', fontSize: '13px', fontWeight: '600' }}>Read on dev.to →</span>
                 </div>
               </a>
             ))}
@@ -735,6 +808,12 @@ export default function Portfolio() {
               </svg>
               GitHub
             </a>
+            <a href="https://dev.to/devpops" target="_blank" rel="noopener noreferrer" className="social-link">
+              <svg width="15" height="15" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M7.42 10.05c-.18-.16-.46-.23-.84-.23H6l.02 2.44.04 2.45.56-.02c.41 0 .63-.07.83-.26.24-.24.26-.36.26-2.2 0-1.91-.02-1.96-.29-2.18zM0 4.94v14.12h24V4.94H0zM8.56 15.3c-.44.58-1.06.77-2.53.77H4.71V8.53h1.4c1.67 0 2.16.18 2.6.9.27.43.29.6.32 2.57.05 2.23-.02 2.73-.47 3.3zm5.09-5.47h-2.47v1.77h1.52v1.28l-.72.04-.75.03v1.77l1.22.03 1.2.04v1.28h-1.6c-1.53 0-1.6-.01-1.87-.3l-.3-.28v-3.16c0-3.02.01-3.18.25-3.48.23-.31.25-.31 1.88-.31h1.64v1.29zm4.68 5.45c-.17.43-.64.79-1 .79-.18 0-.45-.15-.67-.39-.32-.32-.45-.63-.82-2.08l-.9-3.39-.45-1.67h.76c.4 0 .75.02.75.05 0 .06 1.16 4.54 1.26 4.83.04.15.32-.7.73-2.3l.66-2.52.74-.04c.4-.02.73 0 .73.04 0 .14-1.67 6.38-1.8 6.68z"/>
+              </svg>
+              dev.to
+            </a>
           </div>
         </div>
       </section>
@@ -752,6 +831,7 @@ export default function Portfolio() {
             {[
               { label: 'GitHub', href: 'https://github.com/poppyszn' },
               { label: 'LinkedIn', href: 'https://www.linkedin.com/in/dev-pops/' },
+              { label: 'dev.to', href: 'https://dev.to/devpops' },
               { label: 'Resume', href: '/resume.pdf', download: true },
             ].map(link => (
               <a key={link.label} href={link.href} target={link.download ? undefined : '_blank'}
