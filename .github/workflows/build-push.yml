@@ -31,7 +31,10 @@ jobs:
         run: echo "short=${GITHUB_SHA::7}" >> $GITHUB_OUTPUT
 
       - name: Log in to Harbor
-        run: echo "${{ secrets.HARBOR_PASSWORD }}" | docker login harbor.dev-pops.site -u "${{ secrets.HARBOR_USERNAME }}" --password-stdin
+        env:
+          HARBOR_USER: ${{ secrets.HARBOR_USERNAME }}
+          HARBOR_PASS: ${{ secrets.HARBOR_PASSWORD }}
+        run: echo "$HARBOR_PASS" | docker login harbor.dev-pops.site -u "$HARBOR_USER" --password-stdin
 
       - name: Build image
         run: |
