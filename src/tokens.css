@@ -325,6 +325,11 @@ section[id] { scroll-margin-top: 80px; }
   border: 1px solid var(--c-accent-border);
   animation: pulseDot 2.5s ease-in-out infinite;
 }
+.status-live {
+  background: var(--c-success-bg);
+  color: var(--c-success);
+  border: 1px solid var(--c-success-border);
+}
 
 /* Responsive */
 @media (max-width: 768px) { .hide-mobile { display: none !important; } }

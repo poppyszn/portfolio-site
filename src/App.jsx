@@ -132,8 +132,9 @@ const upcomingProjects = [
   {
     title: 'Uptime Kuma',
     tag: 'Monitoring',
-    description: 'Self-hosted status page monitoring all homelab services with public-facing uptime history — concrete proof that the infrastructure is live and maintained.',
-    status: 'Planning',
+    description: 'Self-hosted status page monitoring all homelab services with public-facing uptime history — live at status.dev-pops.site.',
+    status: 'Live',
+    href: 'https://status.dev-pops.site/status/homelab',
   },
   {
     title: 'Loki + Promtail',
@@ -663,29 +664,38 @@ export default function Portfolio() {
             </p>
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '20px' }}>
-            {upcomingProjects.map((p, i) => (
-              <div key={i} className="card" style={{ padding: '28px', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', gap: '12px' }}>
-                  <div style={{
-                    display: 'inline-flex', padding: '3px 10px',
-                    background: 'var(--c-accent-light)', borderRadius: 'var(--radius-full)',
-                  }}>
-                    <span style={{ color: 'var(--c-accent)', fontSize: '11.5px', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>
-                      {p.tag}
+            {upcomingProjects.map((p, i) => {
+              const statusClass = p.status === 'Live' ? 'status-live' : p.status === 'In Progress' ? 'status-in-progress' : 'status-planning';
+              const cardProps = p.href
+                ? { component: 'a', href: p.href, target: '_blank', rel: 'noopener noreferrer', style: { textDecoration: 'none', color: 'inherit' } }
+                : {};
+              const Tag = p.href ? 'a' : 'div';
+              return (
+                <Tag key={i} {...(p.href ? { href: p.href, target: '_blank', rel: 'noopener noreferrer' } : {})}
+                  className={`card${p.href ? ' card-hover' : ''}`}
+                  style={{ padding: '28px', display: 'flex', flexDirection: 'column', ...(p.href ? { textDecoration: 'none', color: 'inherit' } : {}) }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px', gap: '12px' }}>
+                    <div style={{
+                      display: 'inline-flex', padding: '3px 10px',
+                      background: 'var(--c-accent-light)', borderRadius: 'var(--radius-full)',
+                    }}>
+                      <span style={{ color: 'var(--c-accent)', fontSize: '11.5px', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>
+                        {p.tag}
+                      </span>
+                    </div>
+                    <span className={`status-badge ${statusClass}`}>
+                      {p.status}
                     </span>
                   </div>
-                  <span className={`status-badge ${p.status === 'In Progress' ? 'status-in-progress' : 'status-planning'}`}>
-                    {p.status}
-                  </span>
-                </div>
-                <h3 style={{ fontSize: '17px', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '10px', lineHeight: '1.3' }}>
-                  {p.title}
-                </h3>
-                <p style={{ color: 'var(--c-text-2)', lineHeight: '1.65', fontSize: '14px', flex: 1 }}>
-                  {p.description}
-                </p>
-              </div>
-            ))}
+                  <h3 style={{ fontSize: '17px', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '10px', lineHeight: '1.3' }}>
+                    {p.title}
+                  </h3>
+                  <p style={{ color: 'var(--c-text-2)', lineHeight: '1.65', fontSize: '14px', flex: 1 }}>
+                    {p.description}
+                  </p>
+                </Tag>
+              );
+            })}
           </div>
         </div>
       </section>
