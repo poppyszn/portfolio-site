@@ -16,7 +16,7 @@ spec:
       values: |
         image:
           repository: harbor.dev-pops.site/homelab/portfolio
-          tag: 8dec442
+          tag: 8dccd2a
         imagePullSecrets:
           - name: harbor-creds
         ingress:
