@@ -146,7 +146,7 @@ const upcomingProjects = [
     title: 'HashiCorp Vault',
     tag: 'Security',
     description: 'Proper secret management on k3s — dynamic secrets, lease-based access, and policy-driven control replacing manual kubectl secret creation across the cluster.',
-    status: 'Planning',
+    status: 'Live',
   },
 ];
 
