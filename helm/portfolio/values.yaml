@@ -53,6 +53,9 @@ metrics:
   enabled: true
   image: nginx/nginx-prometheus-exporter:1.3
 
+appMetrics:
+  enabled: true
+
 podAnnotations: {}
 
 nodeSelector: {}

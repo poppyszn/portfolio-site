@@ -20,3 +20,9 @@ spec:
       targetPort: metrics
       protocol: TCP
     {{- end }}
+    {{- if .Values.appMetrics.enabled }}
+    - name: app-metrics
+      port: 3001
+      targetPort: app-metrics
+      protocol: TCP
+    {{- end }}

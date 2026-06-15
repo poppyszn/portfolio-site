@@ -35,6 +35,11 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+            {{- if .Values.appMetrics.enabled }}
+            - name: app-metrics
+              containerPort: 3001
+              protocol: TCP
+            {{- end }}
           livenessProbe:
             {{- toYaml .Values.livenessProbe | nindent 12 }}
           readinessProbe:
