@@ -670,6 +670,35 @@ export default function Portfolio() {
             ))}
           </div>
 
+          {/* Live Grafana dashboard */}
+          <div style={{ marginTop: '56px' }}>
+            <p style={{ textAlign: 'center', fontSize: '12px', fontWeight: '600', color: 'var(--c-text-3)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '20px' }}>
+              Live Cluster Metrics
+            </p>
+            <div style={{
+              border: '1px solid var(--c-border)',
+              borderRadius: 'var(--radius-lg)',
+              overflow: 'hidden',
+              boxShadow: 'var(--shadow-lg)',
+            }}>
+              <iframe
+                src="https://grafana.dev-pops.site/public-dashboards/c6245f9d84d349a881c8ca355f613a87"
+                width="100%"
+                height="500"
+                frameBorder="0"
+                title="Homelab Cluster Metrics"
+                style={{ display: 'block' }}
+              />
+            </div>
+            <p style={{ textAlign: 'center', marginTop: '12px', fontSize: '12px', color: 'var(--c-text-3)' }}>
+              Live data · hosted at{' '}
+              <a href="https://grafana.dev-pops.site" target="_blank" rel="noopener noreferrer"
+                 style={{ color: 'var(--c-accent)', textDecoration: 'none', fontFamily: 'var(--font-mono)', fontSize: '12px' }}>
+                grafana.dev-pops.site
+              </a>
+            </p>
+          </div>
+
           {/* Hardware note */}
           <div style={{
             marginTop: '40px',
