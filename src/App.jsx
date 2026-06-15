@@ -148,6 +148,12 @@ const upcomingProjects = [
     description: 'Proper secret management on k3s — dynamic secrets, lease-based access, and policy-driven control replacing manual kubectl secret creation across the cluster.',
     status: 'Live',
   },
+  {
+    title: 'Metrics Pipeline',
+    tag: 'Observability',
+    description: 'Full metrics pipeline on k3s — Prometheus scraping cluster and app metrics, long-term storage via Thanos + MinIO (S3-compatible), and Grafana dashboards for visualization.',
+    status: 'Live',
+  },
 ];
 
 const stats = [
