@@ -682,7 +682,7 @@ export default function Portfolio() {
               boxShadow: 'var(--shadow-lg)',
             }}>
               <iframe
-                src="https://grafana.dev-pops.site/public-dashboards/c6245f9d84d349a881c8ca355f613a87"
+                src="https://grafana.dev-pops.site/public-dashboards/3f6ba374c7c640d6a8d299a4444c1b85"
                 width="100%"
                 height="500"
                 frameBorder="0"
