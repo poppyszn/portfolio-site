@@ -22,31 +22,99 @@ const skillCategories = [
 const projects = [
   {
     title: 'Two-Tier Web App with Docker & Jenkins',
-    tech: 'Docker · Jenkins · Terraform · AWS EC2',
-    description: 'End-to-end CI/CD deployment of a Flask + MySQL application on AWS — Terraform provisions the infrastructure, Docker containerises the stack, and Jenkins automates builds via GitHub webhooks.',
-    metric: 'Full CI/CD on every push',
+    tag: 'CI/CD Pipeline',
+    summary: 'Automated deployment of a Flask + MySQL app on AWS, driven by a 7-stage Jenkins pipeline triggered on every git push.',
+    description: 'End-to-end CI/CD for a Flask and MySQL application on AWS EC2. Terraform provisions the infrastructure across two instances. Jenkins runs a 7-stage pipeline: lint with flake8, validate Docker Compose, smoke test, run DB migrations, and deploy. A GitHub webhook fires the pipeline automatically on every push to main.',
+    highlights: [
+      '7-stage Jenkins pipeline: lint, validate, smoke test, DB migrate, deploy',
+      'Modular Terraform provisions EC2, VPC, and Security Groups',
+      'GitHub webhook triggers the pipeline on every push to main',
+      'Docker Compose orchestrates Flask and MySQL on the app server',
+    ],
+    tech: ['Docker', 'Docker Compose', 'Jenkins', 'Terraform', 'AWS EC2', 'Flask', 'MySQL'],
+    image: 'https://raw.githubusercontent.com/poppyszn/DevOps-Project-Two-Tier-Web-App-with-Docker-and-Jenkins/main/diagrams/06_final_flask_app.png',
+    images: [
+      'https://raw.githubusercontent.com/poppyszn/DevOps-Project-Two-Tier-Web-App-with-Docker-and-Jenkins/main/diagrams/06_final_flask_app.png',
+      'https://raw.githubusercontent.com/poppyszn/DevOps-Project-Two-Tier-Web-App-with-Docker-and-Jenkins/main/diagrams/05_successful_jenkins_run_pipeline_view.png',
+      'https://raw.githubusercontent.com/poppyszn/DevOps-Project-Two-Tier-Web-App-with-Docker-and-Jenkins/main/diagrams/infrastructure.png',
+    ],
+    metric: 'CI/CD on every push',
     github: 'https://github.com/poppyszn/DevOps-Project-Two-Tier-Web-App-with-Docker-and-Jenkins',
   },
   {
     title: 'Monolith to EKS Migration',
-    tech: 'AWS EKS · Kubernetes · ArgoCD · Terraform',
-    description: 'Five-service polyglot stack (Node.js, Python, NestJS, React, Go) containerised with production-grade Dockerfiles and deployed to AWS EKS using GitOps with ArgoCD.',
-    metric: 'Production-grade multi-service',
+    tag: 'Kubernetes',
+    summary: 'Five services, five languages. Containerised with production Dockerfiles and deployed to AWS EKS via GitOps with ArgoCD.',
+    description: 'Containerised a five-service polyglot stack (Node.js, Python, NestJS, React, Go) with production-grade Dockerfiles and deployed to AWS EKS. Each service exposes a /health endpoint. The full stack runs via Docker Compose for local validation before hitting the cluster. ArgoCD handles GitOps deployment; all images are versioned and stored in ECR.',
+    highlights: [
+      '5 services across 5 languages, each with a production Dockerfile',
+      'All images versioned by SHA and pushed to AWS ECR',
+      'GitOps deployment to EKS via ArgoCD, Git as source of truth',
+      'Docker Compose validates the full stack locally before cluster deployment',
+    ],
+    tech: ['AWS EKS', 'ArgoCD', 'Docker', 'Terraform', 'Node.js', 'Python', 'NestJS', 'Go'],
+    image: 'https://raw.githubusercontent.com/poppyszn/DevOps-Project-AWS-EKS-Monolith-Migration/main/docs/screenshots/ecr-repos.png',
+    images: [
+      'https://raw.githubusercontent.com/poppyszn/DevOps-Project-AWS-EKS-Monolith-Migration/main/docs/screenshots/ecr-repos.png',
+      'https://raw.githubusercontent.com/poppyszn/DevOps-Project-AWS-EKS-Monolith-Migration/main/docs/screenshots/docker-containers.png',
+    ],
+    metric: '5 services, 5 languages, 1 cluster',
     github: 'https://github.com/poppyszn/DevOps-Project-AWS-EKS-Monolith-Migration',
   },
   {
     title: 'Multi-Tier Web App on Vagrant',
-    tech: 'Vagrant · Nginx · Tomcat · MySQL · RabbitMQ',
-    description: 'Fully automated local infrastructure deploying a Java social-networking app across multiple VMs — with Nginx load balancing, Memcached, and RabbitMQ message queuing, all provisioned via Vagrant.',
+    tag: 'Infrastructure Automation',
+    summary: 'One command spins up a full 5-VM Java stack: Nginx, Tomcat, MySQL, Memcached, and RabbitMQ, all provisioned via Vagrant.',
+    description: 'Fully automated local infrastructure for a Java social-networking app across 5 virtual machines. A single vagrant up provisions and configures the entire stack. Nginx load balances traffic to Tomcat, MySQL handles persistence, Memcached reduces DB load, and RabbitMQ handles async messaging.',
+    highlights: [
+      'vagrant up provisions and configures the full 5-VM stack with no manual steps',
+      'Nginx load balances across Tomcat app servers',
+      'Memcached reduces DB round-trips for repeat queries',
+      'Foundation for learning containerisation and Kubernetes in a reproducible environment',
+    ],
+    tech: ['Vagrant', 'VirtualBox', 'Nginx', 'Tomcat', 'MySQL', 'Memcached', 'RabbitMQ', 'Bash'],
+    image: null,
+    images: [],
     metric: 'Zero-touch VM provisioning',
     github: 'https://github.com/poppyszn/DevOps-Project-Multi-Tier-Web-App-on-Vagrant',
   },
   {
     title: 'AWS Projects Portfolio',
-    tech: 'AWS · Terraform · IAM · S3 · EC2',
-    description: 'Collection of production-ready AWS cloud infrastructure projects covering legacy migrations, auto-scaling architectures, storage, and DNS management — all built with Infrastructure as Code.',
-    metric: 'Multiple production deployments',
+    tag: 'Cloud Infrastructure',
+    summary: 'Lift-and-shift migrations, auto-scaling architectures, serverless workflows, and S3 storage pipelines, all built with IaC on AWS.',
+    description: 'A collection of production-ready AWS projects across multiple domains: lift-and-shift migration of a multi-tier app to EC2, RDS, and ALB; a serverless URL shortener using Lambda and DynamoDB; auto-scaling groups with health-checked load balancers; S3 static hosting; and Route 53 DNS management. Infrastructure as Code throughout.',
+    highlights: [
+      'Lift-and-shift: multi-tier app migrated to EC2, RDS, and ALB',
+      'Serverless URL shortener: Lambda, API Gateway, and DynamoDB',
+      'Auto-scaling groups with ALB health checks and launch templates',
+      'S3 static website with Route 53 DNS and IAM policies',
+    ],
+    tech: ['AWS EC2', 'S3', 'Lambda', 'Route 53', 'IAM', 'Auto Scaling', 'ALB', 'DynamoDB'],
+    image: 'https://raw.githubusercontent.com/poppyszn/AWS-Projects/main/assets/front_page_banner.jpg',
+    images: [
+      'https://raw.githubusercontent.com/poppyszn/AWS-Projects/main/assets/front_page_banner.jpg',
+    ],
+    metric: 'Multiple production architectures',
     github: 'https://github.com/poppyszn/AWS-Projects',
+  },
+  {
+    title: 'Kubernetes Metrics Pipeline',
+    tag: 'Observability',
+    summary: 'Prometheus, Thanos, and Grafana on k3s with unlimited metric retention via in-cluster MinIO object storage. No cloud account needed.',
+    description: 'Full observability stack on a self-managed k3s cluster. Prometheus scrapes cluster and app metrics; a Thanos sidecar ships TSDB blocks to MinIO running in-cluster. Thanos Query merges real-time data from the sidecar with historical data from the Store Gateway, giving Grafana the full time range. Thanos Compactor downsamples old blocks to keep storage lean.',
+    highlights: [
+      'Unlimited retention: Thanos ships blocks to MinIO, no cloud storage needed',
+      'Thanos Compactor downsamples old blocks to keep MinIO lean over time',
+      'Any app can export metrics in 2 steps: /metrics endpoint + ServiceMonitor',
+      'Live dashboards running on homelab at grafana.dev-pops.site',
+    ],
+    tech: ['Prometheus', 'Thanos', 'MinIO', 'Grafana', 'k3s', 'Helm', 'Kubernetes'],
+    image: 'https://raw.githubusercontent.com/poppyszn/DevOps-Project-Kubernetes-Metrics-Pipeline/main/kubernetes-metrics-pipeline.jpg',
+    images: [
+      'https://raw.githubusercontent.com/poppyszn/DevOps-Project-Kubernetes-Metrics-Pipeline/main/kubernetes-metrics-pipeline.jpg',
+    ],
+    metric: 'Live on homelab',
+    github: 'https://github.com/poppyszn/DevOps-Project-Kubernetes-Metrics-Pipeline',
   },
 ];
 
@@ -178,8 +246,146 @@ const CheckIcon = () => (
   </svg>
 );
 
+function ProjectModal({ project: p, onClose }) {
+  const [activeImg, setActiveImg] = useState(p.images[0] || null);
+
+  useEffect(() => {
+    document.body.style.overflow = 'hidden';
+    const onKey = e => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', onKey);
+    };
+  }, [onClose]);
+
+  return (
+    <div
+      onClick={onClose}
+      style={{
+        position: 'fixed', inset: 0, zIndex: 1000,
+        background: 'rgba(15,23,42,0.6)', backdropFilter: 'blur(6px)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: '20px',
+      }}>
+      <div
+        onClick={e => e.stopPropagation()}
+        style={{
+          background: 'var(--c-bg)', borderRadius: 'var(--radius-lg)',
+          boxShadow: '0 32px 80px rgba(15,23,42,0.25)',
+          width: '100%', maxWidth: '860px', maxHeight: '90vh',
+          overflow: 'auto', position: 'relative',
+        }}>
+
+        {/* Close */}
+        <button
+          onClick={onClose}
+          style={{
+            position: 'sticky', top: '16px', float: 'right', marginRight: '16px', zIndex: 10,
+            width: '32px', height: '32px', borderRadius: '50%',
+            background: 'var(--c-bg-muted)', border: '1px solid var(--c-border)',
+            cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: '16px', color: 'var(--c-text-2)', lineHeight: 1,
+          }}>
+          ✕
+        </button>
+
+        {/* Hero image */}
+        {activeImg ? (
+          <div style={{ width: '100%', height: '360px', overflow: 'hidden', borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0' }}>
+            <img src={activeImg} alt={p.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          </div>
+        ) : (
+          <div style={{
+            height: '260px', borderRadius: 'var(--radius-lg) var(--radius-lg) 0 0',
+            background: 'linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+          }}>
+            <pre style={{ fontFamily: 'var(--font-mono)', color: 'rgba(255,255,255,0.2)', fontSize: '13px', lineHeight: '1.8', margin: 0 }}>
+              {`nginx (load balancer)\n└── tomcat (app server)\n      ├── mysql\n      ├── memcached\n      └── rabbitmq`}
+            </pre>
+          </div>
+        )}
+
+        {/* Thumbnails */}
+        {p.images.length > 1 && (
+          <div style={{ display: 'flex', gap: '8px', padding: '12px 32px 0', overflowX: 'auto' }}>
+            {p.images.map((img, i) => (
+              <button key={i} onClick={() => setActiveImg(img)} style={{
+                flexShrink: 0, width: '80px', height: '54px', borderRadius: 'var(--radius-sm)',
+                overflow: 'hidden', padding: 0, cursor: 'pointer',
+                border: `2px solid ${activeImg === img ? 'var(--c-accent)' : 'var(--c-border)'}`,
+                transition: 'border-color var(--t-fast)',
+              }}>
+                <img src={img} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+              </button>
+            ))}
+          </div>
+        )}
+
+        {/* Content */}
+        <div style={{ padding: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap', marginBottom: '16px' }}>
+            <span className="section-label">{p.tag}</span>
+            <span style={{
+              padding: '3px 10px', borderRadius: 'var(--radius-full)',
+              background: 'var(--c-success-bg)', border: '1px solid var(--c-success-border)',
+              fontSize: '12px', fontWeight: '600', color: 'var(--c-success)',
+              fontFamily: 'var(--font-mono)',
+            }}>{p.metric}</span>
+          </div>
+
+          <h2 style={{ fontSize: 'clamp(20px, 3vw, 28px)', fontWeight: '800', letterSpacing: '-0.03em', marginBottom: '16px', lineHeight: '1.2' }}>
+            {p.title}
+          </h2>
+
+          <p style={{ color: 'var(--c-text-2)', fontSize: '15px', lineHeight: '1.7', marginBottom: '28px' }}>
+            {p.description}
+          </p>
+
+          <div style={{ marginBottom: '28px' }}>
+            <p style={{ fontSize: '12px', fontWeight: '600', color: 'var(--c-text-3)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '14px' }}>
+              Key highlights
+            </p>
+            <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '10px' }}>
+              {p.highlights.map((h, i) => (
+                <li key={i} style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                  <span style={{ color: 'var(--c-accent)', fontWeight: '700', marginTop: '2px', flexShrink: 0 }}>+</span>
+                  <span style={{ color: 'var(--c-text-2)', fontSize: '14px', lineHeight: '1.6' }}>{h}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div style={{ marginBottom: '32px' }}>
+            <p style={{ fontSize: '12px', fontWeight: '600', color: 'var(--c-text-3)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: '12px' }}>
+              Tech stack
+            </p>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+              {p.tech.map(t => (
+                <span key={t} className="skill-chip" style={{ fontSize: '12.5px' }}>{t}</span>
+              ))}
+            </div>
+          </div>
+
+          <a href={p.github} target="_blank" rel="noopener noreferrer"
+             className="btn btn-primary"
+             style={{ textDecoration: 'none' }}
+             onClick={() => track('cta_click', { label: `project_github_${p.title.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 30)}` })}>
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+            </svg>
+            View on GitHub
+          </a>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function Portfolio() {
   const [typedText, setTypedText] = useState('');
+  const [selectedProject, setSelectedProject] = useState(null);
   const [showCursor, setShowCursor] = useState(true);
   const [roleIndex, setRoleIndex] = useState(0);
   const [formState, handleFormSubmit] = useForm('xpqqaekv');
@@ -516,32 +722,67 @@ export default function Portfolio() {
               Projects
             </h2>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '20px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
             {projects.map((p, i) => (
-              <a key={i} href={p.github} target="_blank" rel="noopener noreferrer"
-                className="card card-hover"
-                style={{ padding: '28px', textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column' }}
-                onClick={() => track('cta_click', { label: `project_${p.title.toLowerCase().replace(/[^a-z0-9]+/g, '_').split('_').slice(0, 3).join('_')}` })}>
-                <div style={{
-                  display: 'inline-flex', padding: '3px 10px',
-                  background: 'var(--c-accent-light)', borderRadius: 'var(--radius-full)',
-                  marginBottom: '16px', alignSelf: 'flex-start',
-                }}>
-                  <span style={{ color: 'var(--c-accent)', fontSize: '11.5px', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>
-                    {p.tech}
-                  </span>
+              <div key={i} className="card card-hover"
+                style={{ cursor: 'pointer', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+                onClick={() => { setSelectedProject(p); track('cta_click', { label: `project_${p.title.toLowerCase().replace(/[^a-z0-9]+/g, '_').slice(0, 30)}` }); }}>
+
+                {/* Card image or placeholder */}
+                {p.image ? (
+                  <div style={{ width: '100%', height: '200px', overflow: 'hidden', flexShrink: 0, background: 'var(--c-bg-muted)' }}>
+                    <img src={p.image} alt={p.title}
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.4s ease' }}
+                      onMouseEnter={e => e.currentTarget.style.transform = 'scale(1.04)'}
+                      onMouseLeave={e => e.currentTarget.style.transform = 'scale(1)'}
+                    />
+                  </div>
+                ) : (
+                  <div style={{
+                    height: '200px', flexShrink: 0,
+                    background: 'linear-gradient(135deg, #0F172A 0%, #1E3A5F 100%)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    <pre style={{ fontFamily: 'var(--font-mono)', color: 'rgba(255,255,255,0.18)', fontSize: '12px', lineHeight: '1.8', margin: 0, userSelect: 'none' }}>
+                      {`nginx (LB)\n└── tomcat (app)\n      ├── mysql\n      ├── memcached\n      └── rabbitmq`}
+                    </pre>
+                  </div>
+                )}
+
+                {/* Card content */}
+                <div style={{ padding: '24px', display: 'flex', flexDirection: 'column', flex: 1 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '8px', marginBottom: '12px' }}>
+                    <span className="section-label" style={{ fontSize: '10.5px' }}>{p.tag}</span>
+                    <span style={{ color: 'var(--c-text-3)', fontSize: '11.5px', fontFamily: 'var(--font-mono)', whiteSpace: 'nowrap' }}>
+                      {p.images.length > 0 ? `${p.images.length} screenshot${p.images.length > 1 ? 's' : ''}` : ''}
+                    </span>
+                  </div>
+                  <h3 style={{ fontSize: '16px', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '10px', lineHeight: '1.3' }}>
+                    {p.title}
+                  </h3>
+                  <p style={{ color: 'var(--c-text-2)', fontSize: '13.5px', lineHeight: '1.65', flex: 1, marginBottom: '16px' }}>
+                    {p.summary}
+                  </p>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginBottom: '16px' }}>
+                    {p.tech.slice(0, 4).map(t => (
+                      <span key={t} style={{
+                        padding: '2px 8px', borderRadius: 'var(--radius-full)',
+                        background: 'var(--c-bg-muted)', border: '1px solid var(--c-border)',
+                        fontSize: '11.5px', fontWeight: '500', color: 'var(--c-text-2)',
+                      }}>{t}</span>
+                    ))}
+                    {p.tech.length > 4 && (
+                      <span style={{ padding: '2px 8px', borderRadius: 'var(--radius-full)', background: 'var(--c-bg-muted)', border: '1px solid var(--c-border)', fontSize: '11.5px', color: 'var(--c-text-3)' }}>
+                        +{p.tech.length - 4} more
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '14px', borderTop: '1px solid var(--c-border-light)' }}>
+                    <span style={{ color: 'var(--c-success)', fontSize: '12.5px', fontWeight: '600', fontFamily: 'var(--font-mono)' }}>{p.metric}</span>
+                    <span style={{ color: 'var(--c-accent)', fontSize: '13px', fontWeight: '600' }}>Case study →</span>
+                  </div>
                 </div>
-                <h3 style={{ fontSize: '17px', fontWeight: '700', letterSpacing: '-0.02em', marginBottom: '10px', lineHeight: '1.3' }}>
-                  {p.title}
-                </h3>
-                <p style={{ color: 'var(--c-text-2)', lineHeight: '1.65', fontSize: '14px', marginBottom: '20px', flex: 1 }}>
-                  {p.description}
-                </p>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: '16px', borderTop: '1px solid var(--c-border-light)' }}>
-                  <span style={{ color: 'var(--c-accent)', fontSize: '13px', fontWeight: '600' }}>{p.metric}</span>
-                  <span style={{ color: 'var(--c-text-3)', fontSize: '13px' }}>View on GitHub →</span>
-                </div>
-              </a>
+              </div>
             ))}
           </div>
         </div>
@@ -925,6 +1166,10 @@ export default function Portfolio() {
           </div>
         </div>
       </footer>
+
+      {selectedProject && (
+        <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
+      )}
 
     </div>
   );
